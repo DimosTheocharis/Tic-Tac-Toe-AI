@@ -2,57 +2,56 @@ from backend.components.state import State
 
 class Game:
     def __init__(self):
-        self.dimension = 3
-        self.game = State(self.dimension)
+        self.dimension: int = 3
+        self.playerA: str = "X"
+        self.playerB: str = "O"  
+        self.currentPlayer: str = self.playerA
 
-    def isVictory(self) -> None:
-        for i in range(self.dimension):
-            if (self.checkRow(i)):
-                print(f"The row {i} makes Tic-Tac-Toe!")
+    def newGame(self):
+        '''
+            Starts a new game.
+        '''
+        self.state = State(self.dimension)
+        while (not (self.state.isVictory() or self.state.gridIsFull())):
+            self.state.printGrid()
+            coordinates: tuple[int, int] = self.receivePlayerInput()
 
-        for j in range(self.dimension):
-            if (self.checkColumn(j)):
-                print(f"The column {j} makes Tic-Tac-Toe!")
+            while(not self.state.play(self.currentPlayer, coordinates[0], coordinates[1])):
+                print("Please try again")
+                self.state.printGrid()
+                coordinates = self.receivePlayerInput()
+                
+            self.switchTurn()
+            print("")
 
-        if (self.checkPrimaryDiagonal()):
-            print("The primary diagonal makes Tic-Tac-Toe!")
+        self.state.printGrid()
+        if (self.state.isVictory()):
+            self.switchTurn()
+            print(f"Player {self.currentPlayer} wins!")
+        else:
+            print("The game results to tie!")
 
-        if (self.checkSecondaryDiagonal()):
-            print("The secondary diagonal makes Tic-Tac-Toe!")
 
-    def checkRow(self, row: int) -> bool: 
-        match: bool = True
-        j: int = 0
-        while (match and j < self.dimension - 1):
-            match = self.game.grid[row][j] == self.game.grid[row][j + 1]
-            j += 1
+    def switchTurn(self) -> None:
+        '''
+            Handles the switching of the player playing.
+        '''
+        self.currentPlayer = self.playerB if self.currentPlayer == self.playerA else self.playerA
 
-        return match 
 
-    def checkColumn(self, column: int) -> bool: 
-        match: bool = True
-        i: int = 0
-        while (match and i < self.dimension - 1):
-            match = self.game.grid[i][column] == self.game.grid[i + 1][column]
-            i += 1
+    def receivePlayerInput(self) -> tuple[int, int]:
+        '''
+            Asks current player to give the coordinates (row, column) of the cell where we wants to place his symbol
 
-        return match 
+            Returns:
+                tuple[int, int]: the (row, column) coordinates of the cell
+        '''
+        print(f"Player {self.currentPlayer} is playing. Where do you wanna play?")
 
-    def checkPrimaryDiagonal(self) -> bool:
-        match: bool = True
-        x: int = 0
-        while (match and x < self.dimension - 1):
-            match = self.game.grid[x][x] == self.game.grid[x + 1][x + 1]
-            x += 1
+        row: int = int(input("Select row: "))
+        column: int = int(input("Select column: "))
 
-        return match
+        return (row, column)
 
-    def checkSecondaryDiagonal(self) -> bool:
-        match: bool = True
-        x: int = self.dimension - 1
-        while (match and x > 0):
-            match = self.game.grid[x][self.dimension - 1 - x] == self.game.grid[x - 1][self.dimension - x]
-            x -= 1
-
-        return match
+    
         
