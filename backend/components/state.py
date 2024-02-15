@@ -165,6 +165,41 @@ class State:
                     return False
 
         return True
+    
 
+    def getRow(self, row: int) -> list[str]:
+        '''
+            Returns a list with the elements of the row at position {row} of the grid, 
+            ie the elements [row][0], [row][1] etc
+        '''
+        if (row < 0 or row >= self.dimension):
+            return []
+        return self.grid[row]
+    
+    
+    def getColumn(self, column: int) -> list[str]:
+        '''
+            Returns a list with the elements of the column at position {column} of the grid, 
+            ie the elements [0][column], [1][column] etc
+        '''
+        if (column < 0 or column >= self.dimension):
+            return []
+        return [self.grid[j][column] for j in range(self.dimension)]
+    
+    
+    def getPrimaryDiagonal(self) -> list[str]:
+        '''
+            Returns a list with the elements of the primary diagonal of the grid,
+            ie the elements [0][0], [1][1] etc
+        '''
+        return [self.grid[x][x] for x in range(self.dimension)]
+    
+
+    def getSecondaryDiagonal(self) -> list[str]:
+        '''
+            Returns a list with the elements of the secondary diagonal of the grid,
+            ie the elements [2][0], [1][1] etc (for self.dimension = 3)
+        '''
+        return [self.grid[self.dimension - 1 - x][x] for x in range(self.dimension)]
             
             
