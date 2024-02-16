@@ -1,7 +1,10 @@
+from __future__ import annotations
+
 class State:
     def __init__(self, dimension: int):
         self.dimension = dimension
         self.createGrid()
+        self.grid: list[list[str]] = []
 
     def createGrid(self) -> None:
         '''
@@ -12,9 +15,9 @@ class State:
 
     def assignGrid(self, grid: list[list[str]]):
         '''
-            Assigns the grid that gets as parameter to self.grid
+            Assign a copy of the grid that gets as parameter to self.grid
         '''
-        self.grid = grid
+        self.grid = [[grid[row][column] for column in range(self.dimension)] for row in range(self.dimension)]
 
 
     def printGrid(self) -> None:
@@ -201,5 +204,42 @@ class State:
             ie the elements [2][0], [1][1] etc (for self.dimension = 3)
         '''
         return [self.grid[self.dimension - 1 - x][x] for x in range(self.dimension)]
+    
+    
+    def getChildStates(self, symbol: str) -> list[State]:
+        '''
+            Creates all possible states of tic-tac-toe game that can occur after the player 
+            currently playing make his move
+
+            Parameters:
+                symbol (str): The symbol that the player who currently is playing uses
+
+            Returns: 
+                list[State]: A list with all these child states
+        '''
+        result: list[State] = []
+
+        emptyCellCoordinates: list[tuple[int, int]] = self.__getEmptyCellCoordinates()
+        for coordinates in emptyCellCoordinates:
+            child: State = State(self.dimension)
+            child.assignGrid(self.grid)
+
+            child.grid[coordinates[0]][coordinates[1]] =  symbol
+
+            result.append(child)
+
+        return result
+
+    
             
-            
+    def __getEmptyCellCoordinates(self) -> list[tuple[int, int]]:
+        '''
+            Finds and returns a list with (row, column) coordinates where grid[row][column] is empty
+        '''
+        result: list[tuple[int, int]] = []
+        for row in range(self.dimension):
+            for column in range(self.dimension):
+                if (self.grid[row][column] == ' '):
+                    result.append((row, column))
+
+        return result

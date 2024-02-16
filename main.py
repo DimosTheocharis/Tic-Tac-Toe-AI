@@ -5,9 +5,9 @@ from game import Game
 
 myState: State = State(3)
 myState.assignGrid([
-    ['X', ' ', ' '],
-    [' ', 'X', 'O'],
-    ['X', 'O', 'O']
+    [' ', ' ', ' '],
+    [' ', ' ', 'O'],
+    [' ', 'O', 'O']
 ])
 
 miniMax: MiniMax = MiniMax('X', 'O')
@@ -15,6 +15,17 @@ miniMax: MiniMax = MiniMax('X', 'O')
 evaluation = miniMax.evaluationFunction(myState, 'O')
 
 print(evaluation)
+
+
+a = State(3)
+a.assignGrid([
+    ['X', ' ', ' '],
+    [' ', 'X', 'O'],
+    ['X', 'O', 'O']
+])
+
+for x in a.getChildStates('Y'):
+    print(x.grid)
 
 
 
