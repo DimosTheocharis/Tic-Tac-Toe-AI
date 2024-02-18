@@ -22,16 +22,15 @@ miniMax: MiniMax = MiniMax('X', 'O')
 a = State(3)
 a.assignGrid([
     ['X', 'O', ' '],
-    ['O', ' ', ' '],
-    ['X', 'O', ' ']
+    ['O', 'O', 'X'],
+    [' ', ' ', 'X']
 ])
 
 start = time.time()
-nextMove: State = miniMax.miniMax(a, True, 2, 'X')
+nextMove: State = miniMax.miniMax(a, 2, 'X')
 nextMove.printGrid()
 end = time.time()
-print("time:")
-print(end - start)
+print(f"time: {end - start}")
 
 
 
