@@ -1,31 +1,37 @@
 from backend.components.state import State
 from backend.algorithms.miniMax import MiniMax
 from game import Game
-
-
-myState: State = State(3)
-myState.assignGrid([
-    [' ', ' ', ' '],
-    [' ', ' ', 'O'],
-    [' ', 'O', 'O']
-])
+import time
 
 miniMax: MiniMax = MiniMax('X', 'O')
 
-evaluation = miniMax.evaluationFunction(myState, 'O')
 
-print(evaluation)
+
+# b: State = State(3)
+# b.assignGrid([
+#     ['X', 'O', ' '],
+#     [' ', ' ', 'O'],
+#     ['X', 'O', 'X']
+# ])
+
+
+
+# print(miniMax.evaluationFunction(b, 'X'))
 
 
 a = State(3)
 a.assignGrid([
-    ['X', ' ', ' '],
-    [' ', 'X', 'O'],
-    ['X', 'O', 'O']
+    ['X', 'O', ' '],
+    ['O', ' ', ' '],
+    ['X', 'O', ' ']
 ])
 
-for x in a.getChildStates('Y'):
-    print(x.grid)
+start = time.time()
+nextMove: State = miniMax.miniMax(a, True, 2, 'X')
+nextMove.printGrid()
+end = time.time()
+print("time:")
+print(end - start)
 
 
 
