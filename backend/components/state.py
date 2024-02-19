@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 class State:
     def __init__(self, dimension: int):
         self.dimension = dimension
-        self.createGrid()
+        self.__createGrid()
+        self.grid: list[list[str]] = []
 
-    def createGrid(self) -> None:
+    def __createGrid(self) -> None:
         '''
             Creates a self.dimension X self.dimension grid and fills its cells with ' '
         '''
@@ -12,9 +15,9 @@ class State:
 
     def assignGrid(self, grid: list[list[str]]):
         '''
-            Assigns the grid that gets as parameter to self.grid
+            Assign a copy of the grid that gets as parameter to self.grid
         '''
-        self.grid = grid
+        self.grid = [[grid[row][column] for column in range(self.dimension)] for row in range(self.dimension)]
 
 
     def printGrid(self) -> None:
@@ -165,6 +168,78 @@ class State:
                     return False
 
         return True
+    
 
+    def getRow(self, row: int) -> list[str]:
+        '''
+            Returns a list with the elements of the row at position {row} of the grid, 
+            ie the elements [row][0], [row][1] etc
+        '''
+        if (row < 0 or row >= self.dimension):
+            return []
+        return self.grid[row]
+    
+    
+    def getColumn(self, column: int) -> list[str]:
+        '''
+            Returns a list with the elements of the column at position {column} of the grid, 
+            ie the elements [0][column], [1][column] etc
+        '''
+        if (column < 0 or column >= self.dimension):
+            return []
+        return [self.grid[j][column] for j in range(self.dimension)]
+    
+    
+    def getPrimaryDiagonal(self) -> list[str]:
+        '''
+            Returns a list with the elements of the primary diagonal of the grid,
+            ie the elements [0][0], [1][1] etc
+        '''
+        return [self.grid[x][x] for x in range(self.dimension)]
+    
+
+    def getSecondaryDiagonal(self) -> list[str]:
+        '''
+            Returns a list with the elements of the secondary diagonal of the grid,
+            ie the elements [2][0], [1][1] etc (for self.dimension = 3)
+        '''
+        return [self.grid[self.dimension - 1 - x][x] for x in range(self.dimension)]
+    
+    
+    def getChildStates(self, symbol: str) -> list[State]:
+        '''
+            Creates all possible states of tic-tac-toe game that can occur after the player 
+            currently playing make his move
+
+            Parameters:
+                symbol (str): The symbol that the player who is currently playing uses
+
+            Returns: 
+                list[State]: A list with all these child states
+        '''
+        result: list[State] = []
+
+        emptyCellCoordinates: list[tuple[int, int]] = self.__getEmptyCellCoordinates()
+        for coordinates in emptyCellCoordinates:
+            child: State = State(self.dimension)
+            child.assignGrid(self.grid)
+
+            child.grid[coordinates[0]][coordinates[1]] = symbol
+
+            result.append(child)
+
+        return result
+
+    
             
-            
+    def __getEmptyCellCoordinates(self) -> list[tuple[int, int]]:
+        '''
+            Finds and returns a list with (row, column) coordinates where grid[row][column] is empty
+        '''
+        result: list[tuple[int, int]] = []
+        for row in range(self.dimension):
+            for column in range(self.dimension):
+                if (self.grid[row][column] == ' '):
+                    result.append((row, column))
+
+        return result
