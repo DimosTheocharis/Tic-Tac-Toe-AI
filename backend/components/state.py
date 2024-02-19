@@ -3,10 +3,10 @@ from __future__ import annotations
 class State:
     def __init__(self, dimension: int):
         self.dimension = dimension
-        self.createGrid()
+        self.__createGrid()
         self.grid: list[list[str]] = []
 
-    def createGrid(self) -> None:
+    def __createGrid(self) -> None:
         '''
             Creates a self.dimension X self.dimension grid and fills its cells with ' '
         '''
@@ -212,7 +212,7 @@ class State:
             currently playing make his move
 
             Parameters:
-                symbol (str): The symbol that the player who currently is playing uses
+                symbol (str): The symbol that the player who is currently playing uses
 
             Returns: 
                 list[State]: A list with all these child states
@@ -224,7 +224,7 @@ class State:
             child: State = State(self.dimension)
             child.assignGrid(self.grid)
 
-            child.grid[coordinates[0]][coordinates[1]] =  symbol
+            child.grid[coordinates[0]][coordinates[1]] = symbol
 
             result.append(child)
 

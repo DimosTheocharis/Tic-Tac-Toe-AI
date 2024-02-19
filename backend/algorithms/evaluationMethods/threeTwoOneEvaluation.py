@@ -3,7 +3,15 @@ from backend.algorithms.utils import findOpponent
 
 class ThreeTwoOneEvaluation:
     '''
-        This class represents an evaluation method for the MiniMax algorithm
+        This class represents an evaluation method for the MiniMax algorithm. The method is based on the following formula:
+        value = 10 * X3 + 3 * X2 + X1 - (10 * Y3 + 3 * Y2 + Y1)
+
+        X3 = # of rows, columns, diagonals that contain 3 ally symbols and 0 enemy symbols \n
+        X2 = # of rows, columns, diagonals that contain 2 ally symbols and 0 enemy symbols \n
+        X1 = # of rows, columns, diagonals that contain 1 ally symbols and 0 enemy symbols \n
+        Y3 = # of rows, columns, diagonals that contain 0 ally symbols and 3 enemy symbols \n
+        Y2 = # of rows, columns, diagonals that contain 0 ally symbols and 2 enemy symbols \n
+        Y1 = # of rows, columns, diagonals that contain 0 ally symbols and 1 enemy symbols \n
     '''
     def __init__(self, players: tuple[str, str]):
         self.__players = players

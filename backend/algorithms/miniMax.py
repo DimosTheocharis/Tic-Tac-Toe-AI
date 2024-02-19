@@ -6,7 +6,7 @@ class MiniMax:
     def __init__(self, playerA: str, playerB: str):
         self.players: tuple[str, str] = (playerA, playerB)
         self.childOptions: list[tuple[State, int]] = [] #it will save the direct children States of the State for which 
-        #the MiniMax algorithm will be called, and their minimax value
+        #the MiniMax algorithm will be called ("prototype" state), and their heuristic value
 
         self.__evaluationMethod: ThreeTwoOneEvaluation = ThreeTwoOneEvaluation(self.players)
         self.__algorithmPlayer: str = " " #the player for which the algorithm was initially called
@@ -18,7 +18,7 @@ class MiniMax:
             The most beneficial state for the {player} is returned.
 
             Parameters:
-                player (str): The symbol of one tic-tac-toe player
+                player (str): The symbol of the tic-tac-toe player who is currently playing
                 state (State): A snapshot of the tic-tac-toe game for which we want to determine the next best move 
                     the {player} can make
                 depth (int): A number that specifies how deep the algorithm will search the minimax tree
@@ -26,6 +26,7 @@ class MiniMax:
         self.__algorithmPlayer = player
         minimaxValue: int = self.__execute(state, True, depth, player, True)
 
+        # Find the state of the tic-tac-toe game that will occur if the {player} make his most benefical move
         for option in self.childOptions:
             if (option[1] == minimaxValue):
                return option[0]
@@ -34,10 +35,10 @@ class MiniMax:
     def __execute(self, state: State, maximizePlayer: bool, depth: int, player: str, firstTime: bool) -> int:  
         '''
             Recursive function that performs the MiniMax algorithm. If the state being reviewed is final, which means 
-            some of the three conditions are fulfilled:
-            a) a player is winning the game 
-            b) the grid is full (game ended)
-            c) algorithm reach maximum depth specified
+            some of the three conditions are fulfilled: \n
+            a) a player is winning the game, \n
+            b) the grid is full (game ended), \n 
+            c) algorithm reach maximum depth specified \n
 
             then the state is evaluated and value is returned.
 
@@ -63,6 +64,7 @@ class MiniMax:
                 value = childValue if childValue > value else value
 
                 if (firstTime):
+                    # Save the child states of the initial state (prototype) and their heuristic value
                     self.childOptions.append((child, childValue))
 
         else:
@@ -73,6 +75,7 @@ class MiniMax:
                 value = childValue if childValue < value else value
 
                 if (firstTime):
+                    # Save the child states of the initial state (prototype) and their heuristic value
                     self.childOptions.append((child, childValue))
 
 
