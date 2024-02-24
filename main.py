@@ -3,21 +3,27 @@ from backend.algorithms.miniMax import MiniMax
 from game import Game
 import time
 
-miniMax: MiniMax = MiniMax('X', 'O')
+
+game: Game = Game()
+
+game.newGame()
 
 
-a = State(3)
+a: State = State(3)
 a.assignGrid([
+    ['X', ' ', ' '],
     ['X', 'O', ' '],
-    ['O', 'O', ' '],
-    ['X', ' ', ' ']
+    [' ', ' ', ' ']
 ])
 
-start = time.time()
-nextMove: State = miniMax.miniMax(a, 10, 'X')
-nextMove.printGrid()
-end = time.time()
-print(f"time: {end - start}")
+
+miniMax: MiniMax = MiniMax('X', 'O')
+miniMax.miniMax(a, 8, 'O').printGrid()
+
+
+
+
+
 
 
 

@@ -4,20 +4,19 @@ class State:
     def __init__(self, dimension: int):
         self.dimension = dimension
         self.__createGrid()
-        self.grid: list[list[str]] = []
 
     def __createGrid(self) -> None:
         '''
             Creates a self.dimension X self.dimension grid and fills its cells with ' '
         '''
-        self.grid = [[' ' for j in range(self.dimension)] for i in range(self.dimension)]
+        self.__grid = [[' ' for j in range(self.dimension)] for i in range(self.dimension)]
 
 
     def assignGrid(self, grid: list[list[str]]):
         '''
-            Assign a copy of the grid that gets as parameter to self.grid
+            Assign a copy of the grid that gets as parameter to self.__grid
         '''
-        self.grid = [[grid[row][column] for column in range(self.dimension)] for row in range(self.dimension)]
+        self.__grid = [[grid[row][column] for column in range(self.dimension)] for row in range(self.dimension)]
 
 
     def printGrid(self) -> None:
@@ -33,17 +32,17 @@ class State:
         '''
         for i in range(self.dimension - 1):
             for j in range(self.dimension - 1):
-                print(self.grid[i][j], end='')
+                print(self.__grid[i][j], end='')
                 print("|", end='')
-            print(self.grid[i][self.dimension - 1])
+            print(self.__grid[i][self.dimension - 1])
             for j in range(2 * self.dimension - 1):
                 print("-", end='')
             print()
         
         for j in range(self.dimension - 1):
-            print(self.grid[self.dimension - 1][j], end='')
+            print(self.__grid[self.dimension - 1][j], end='')
             print("|", end='')
-        print(self.grid[self.dimension - 1][self.dimension - 1])
+        print(self.__grid[self.dimension - 1][self.dimension - 1])
 
 
     def play(self, symbol: str, row: int, column: int) -> bool:
@@ -63,11 +62,11 @@ class State:
             print("Coordinates out of limit.")
             return False
         
-        if (self.grid[row][column] != " "):
+        if (self.__grid[row][column] != " "):
             print("Place already occupied.")
             return False
         
-        self.grid[row][column] = symbol
+        self.__grid[row][column] = symbol
 
         return True
     
@@ -98,10 +97,10 @@ class State:
             Returns: 
                 bool: True for victory, False otherwise
         '''
-        match: bool = self.grid[row][0] != " "
+        match: bool = self.__grid[row][0] != " "
         j: int = 0
         while (match and j < self.dimension - 1):
-            match = self.grid[row][j] == self.grid[row][j + 1]
+            match = self.__grid[row][j] == self.__grid[row][j + 1]
             j += 1
 
         return match 
@@ -114,10 +113,10 @@ class State:
             Returns: 
                 bool: True for victory, False otherwise
         '''
-        match: bool = self.grid[0][column] != " "
+        match: bool = self.__grid[0][column] != " "
         i: int = 0
         while (match and i < self.dimension - 1):
-            match = self.grid[i][column] == self.grid[i + 1][column]
+            match = self.__grid[i][column] == self.__grid[i + 1][column]
             i += 1
 
         return match 
@@ -130,10 +129,10 @@ class State:
             Returns: 
                 bool: True for victory, False otherwise
         '''
-        match: bool = self.grid[0][0] != " "
+        match: bool = self.__grid[0][0] != " "
         x: int = 0
         while (match and x < self.dimension - 1):
-            match = self.grid[x][x] == self.grid[x + 1][x + 1]
+            match = self.__grid[x][x] == self.__grid[x + 1][x + 1]
             x += 1
 
         return match
@@ -146,10 +145,10 @@ class State:
             Returns: 
                 bool: True for victory, False otherwise
         '''
-        match: bool = self.grid[0][self.dimension - 1] != " "
+        match: bool = self.__grid[0][self.dimension - 1] != " "
         x: int = self.dimension - 1
         while (match and x > 0):
-            match = self.grid[x][self.dimension - 1 - x] == self.grid[x - 1][self.dimension - x]
+            match = self.__grid[x][self.dimension - 1 - x] == self.__grid[x - 1][self.dimension - x]
             x -= 1
 
         return match
@@ -162,7 +161,7 @@ class State:
             Returns:
                 bool: True if grid is full, False otherwise
         '''
-        for row in self.grid:
+        for row in self.__grid:
             for cell in row:
                 if cell == ' ':
                     return False
@@ -177,7 +176,7 @@ class State:
         '''
         if (row < 0 or row >= self.dimension):
             return []
-        return self.grid[row]
+        return self.__grid[row]
     
     
     def getColumn(self, column: int) -> list[str]:
@@ -187,7 +186,7 @@ class State:
         '''
         if (column < 0 or column >= self.dimension):
             return []
-        return [self.grid[j][column] for j in range(self.dimension)]
+        return [self.__grid[j][column] for j in range(self.dimension)]
     
     
     def getPrimaryDiagonal(self) -> list[str]:
@@ -195,7 +194,7 @@ class State:
             Returns a list with the elements of the primary diagonal of the grid,
             ie the elements [0][0], [1][1] etc
         '''
-        return [self.grid[x][x] for x in range(self.dimension)]
+        return [self.__grid[x][x] for x in range(self.dimension)]
     
 
     def getSecondaryDiagonal(self) -> list[str]:
@@ -203,7 +202,7 @@ class State:
             Returns a list with the elements of the secondary diagonal of the grid,
             ie the elements [2][0], [1][1] etc (for self.dimension = 3)
         '''
-        return [self.grid[self.dimension - 1 - x][x] for x in range(self.dimension)]
+        return [self.__grid[self.dimension - 1 - x][x] for x in range(self.dimension)]
     
     
     def getChildStates(self, symbol: str) -> list[State]:
@@ -222,9 +221,9 @@ class State:
         emptyCellCoordinates: list[tuple[int, int]] = self.__getEmptyCellCoordinates()
         for coordinates in emptyCellCoordinates:
             child: State = State(self.dimension)
-            child.assignGrid(self.grid)
+            child.assignGrid(self.__grid)
 
-            child.grid[coordinates[0]][coordinates[1]] = symbol
+            child.setCellSymbol(coordinates[0], coordinates[1], symbol)
 
             result.append(child)
 
@@ -239,7 +238,43 @@ class State:
         result: list[tuple[int, int]] = []
         for row in range(self.dimension):
             for column in range(self.dimension):
-                if (self.grid[row][column] == ' '):
+                if (self.__grid[row][column] == ' '):
                     result.append((row, column))
 
         return result
+    
+
+    def getCellSymbol(self, row: int, column: int) -> str:
+        '''
+            Returns the symbol that is contained inside grid, at the given {row}, {column} coordinates
+            If coordinates are out of limit, then returns None
+        '''
+        if (row < 0 or row >= self.dimension or column < 0 or column >= self.dimension):
+            print(f"Coordinates ({row},{column}) are out of limit!")
+            return None
+        
+        return self.__grid[row][column]
+    
+
+    def setCellSymbol(self, row: int, column: int, symbol: str) -> None:
+        '''
+            Set the given {symbol} at the given {row}, {column} coordinates
+            If coordinates are out of limit, then returns None
+        '''
+        if (row < 0 or row >= self.dimension or column < 0 or column >= self.dimension):
+            print(f"Coordinates ({row},{column}) are out of limit!")
+            return None
+        
+        self.__grid[row][column] = symbol
+    
+
+    def cellIsEmpty(self, row: int, column: int) -> bool:
+        '''
+            Returns true if cell is empty, false otherwise.
+        '''
+
+        symbol: str = self.getCellSymbol(row, column)
+        if (symbol == None):
+            return None
+        
+        return symbol == ' '
