@@ -25,8 +25,8 @@ class State:
 
                0 1 2
               -------
-            0 |O|X|X|
-              |-----|
+            0 |O|X|X| 
+              |-----| 
             1 |X|O|X|
               |-----|
             2 |O|O|O|
@@ -48,7 +48,7 @@ class State:
 
         # Print first {self.dimension - 1} lines with seperator line ('|-----|') under them 
         for i in range(self.dimension - 1):
-            # Print row indicators 
+            # Print row indicator
             print(i, end='')
             print(' ', end='')
 
@@ -66,7 +66,7 @@ class State:
             # Print right edge part ('|')
             print('|')
 
-            # Print seperator line
+            # Print seperator line ('|-----|')
             print("  ", end='')
             print('|', end='')
             for j in range(2 * self.dimension - 1):
@@ -77,7 +77,7 @@ class State:
         # Print last line, without extra seperator line ('|-----|') under them
         print(self.dimension - 1, end='')
         print(' ', end='')
-        print('|', end='')
+        print('|', end='') 
         for j in range(self.dimension - 1):
             print(self.__grid[self.dimension - 1][j], end='')
             print("|", end='')
@@ -292,7 +292,7 @@ class State:
 
     def getCellSymbol(self, row: int, column: int) -> str:
         '''
-            Returns the symbol that is contained inside grid, at the given {row}, {column} coordinates
+            Returns the symbol that is contained inside grid, at the given {row}, {column} coordinates.
             If coordinates are out of limit, then returns None
         '''
         if (row < 0 or row >= self.dimension or column < 0 or column >= self.dimension):
@@ -318,7 +318,6 @@ class State:
         '''
             Returns true if cell is empty, false otherwise.
         '''
-
         symbol: str = self.getCellSymbol(row, column)
         if (symbol == None):
             return None

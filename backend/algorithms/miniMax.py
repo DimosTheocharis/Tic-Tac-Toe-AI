@@ -4,18 +4,18 @@ from backend.algorithms.utils import findOpponent
 
 class MiniMax:
     def __init__(self, playerA: str, playerB: str):
-        self.players: tuple[str, str] = (playerA, playerB)
+        self.__players: tuple[str, str] = (playerA, playerB)
         self.__childOptions: list[tuple[State, int]] = [] #it will save the direct children States of the State for which 
         #the MiniMax algorithm will be called ("prototype" state), and their heuristic value
 
-        self.__evaluationMethod: ThreeTwoOneEvaluation = ThreeTwoOneEvaluation(self.players)
+        self.__evaluationMethod: ThreeTwoOneEvaluation = ThreeTwoOneEvaluation(self.__players)
         self.__algorithmPlayer: str = " " #the player for which the algorithm was initially called
 
 
     def miniMax(self, state: State, depth: int, player: str) -> State:
         '''
-            Reviews the states that can occur from the given {state}, if the {player} makes his move.
-            The most beneficial state for the {player} is returned.
+            Reviews the states that can occur from the given {state}, when the {player} makes his move.
+            The most beneficial state for the {player} among these states is returned.
 
             Parameters:
                 player (str): The symbol of the tic-tac-toe player who is currently playing
@@ -54,7 +54,7 @@ class MiniMax:
         if (depth == 0 or state.isVictory() or state.gridIsFull()):
             return self.__evaluationMethod.evaluate(state, self.__algorithmPlayer)
         
-        opponent: str = findOpponent(player, self.players)
+        opponent: str = findOpponent(player, self.__players)
         childStates: list[State] = state.getChildStates(player)
 
         if (maximizePlayer):

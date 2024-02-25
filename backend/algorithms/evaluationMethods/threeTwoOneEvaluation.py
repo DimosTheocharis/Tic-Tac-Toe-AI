@@ -12,6 +12,9 @@ class ThreeTwoOneEvaluation:
         Y3 = # of rows, columns, diagonals that contain 0 ally symbols and 3 enemy symbols \n
         Y2 = # of rows, columns, diagonals that contain 0 ally symbols and 2 enemy symbols \n
         Y1 = # of rows, columns, diagonals that contain 0 ally symbols and 1 enemy symbols \n
+
+        Ally Symbols: All symbols on the grid that the player, who is currently playing, has placed
+        Enemy Symbols: All symbols on the grid that the opponent has placed
     '''
     def __init__(self, players: tuple[str, str]):
         self.__players = players
@@ -181,7 +184,7 @@ class ThreeTwoOneEvaluation:
     def __calculateY1(self, state: State, currentPlayer: str) -> int:
         '''
             Calculates the number of rows, columns, diagonals that contain 0 symbols of the current player
-                and 1 symbols of the opponent
+                and 1 symbol of the opponent
 
             Returns:
                 int: The result (Y1)

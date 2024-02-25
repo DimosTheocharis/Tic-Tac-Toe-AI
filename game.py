@@ -4,69 +4,69 @@ from backend.algorithms.miniMax import MiniMax
 
 class Game:
     def __init__(self):
-        self.dimension: int = 3
-        self.playerA: str = "X"
-        self.playerB: str = "O"  
-        self.currentPlayer: str = self.playerA
+        self.__dimension: int = 3
+        self.__playerA: str = "X"
+        self.__playerB: str = "O"  
+        self.__currentPlayer: str = self.__playerA
         self.__computerIsPlaying: bool = False
-        self.__miniMax: MiniMax = MiniMax(self.playerA, self.playerB)
+        self.__miniMax: MiniMax = MiniMax(self.__playerA, self.__playerB)
 
     def newGame(self):
         '''
-            Starts a new game.
+            Starts a new Tic-Tac-toe game.
         '''
-        self.state = State(self.dimension)
-        while (not (self.state.isVictory() or self.state.gridIsFull())):
-            self.state.printGrid()
+        self.__state = State(self.__dimension)
+        while (not (self.__state.isVictory() or self.__state.gridIsFull())):
+            self.__state.printGrid()
             print("")
             if (self.__computerIsPlaying):
-                nextState: State = self.__miniMax.miniMax(self.state, 8, self.currentPlayer)
+                nextState: State = self.__miniMax.miniMax(self.__state, 8, self.__currentPlayer)
 
-                stateDifference: Dict[str, List[Tuple[int, int, str]]] = self.findDifferencesBetweenStates(self.state, nextState)
+                stateDifference: Dict[str, List[Tuple[int, int, str]]] = self.findDifferencesBetweenStates(self.__state, nextState)
 
                 if (len(stateDifference["plus"]) == 1 and len(stateDifference["minus"]) == 0 and len(stateDifference["diff"]) == 0):
                     coordinates: tuple[int, int] = (stateDifference["plus"][0][0], stateDifference["plus"][0][1])
-                    self.state.play(self.currentPlayer, coordinates[0], coordinates[1])
-                    print(f"Computer placed {self.currentPlayer} in (row, column) = ({coordinates[0]},{coordinates[1]})")
+                    self.__state.play(self.__currentPlayer, coordinates[0], coordinates[1])
+                    print(f"Computer placed {self.__currentPlayer} in (row, column) = ({coordinates[0]},{coordinates[1]})")
                 else:
                     print("Computed failed to play. You may play again.")
                     break
 
             else:
-                coordinates: tuple[int, int] = self.receivePlayerInput()
+                coordinates: tuple[int, int] = self.__receivePlayerInput()
 
-                while(not self.state.play(self.currentPlayer, coordinates[0], coordinates[1])):
+                while(not self.__state.play(self.__currentPlayer, coordinates[0], coordinates[1])):
                     print("Please try again")
-                    self.state.printGrid()
-                    coordinates = self.receivePlayerInput()
+                    self.__state.printGrid()
+                    coordinates = self.__receivePlayerInput()
                 
-            self.switchTurn()
+            self.__switchTurn()
             print("")
 
-        self.state.printGrid()
-        if (self.state.isVictory()):
-            self.switchTurn()
-            print(f"Player {self.currentPlayer} wins!")
+        self.__state.printGrid()
+        if (self.__state.isVictory()):
+            self.__switchTurn()
+            print(f"Player {self.__currentPlayer} wins!")
         else:
             print("The game results to tie!")
 
 
-    def switchTurn(self) -> None:
+    def __switchTurn(self) -> None:
         '''
             Handles the switching of the player playing.
         '''
-        self.currentPlayer = self.playerB if self.currentPlayer == self.playerA else self.playerA
+        self.__currentPlayer = self.__playerB if self.__currentPlayer == self.__playerA else self.__playerA
         self.__computerIsPlaying = not self.__computerIsPlaying
 
 
-    def receivePlayerInput(self) -> tuple[int, int]:
+    def __receivePlayerInput(self) -> tuple[int, int]:
         '''
             Asks current player to give the coordinates (row, column) of the cell where we wants to place his symbol
 
             Returns:
                 tuple[int, int]: the (row, column) coordinates of the cell
         '''
-        print(f"Player {self.currentPlayer} is playing. Where do you wanna play?")
+        print(f"Player {self.__currentPlayer} is playing. Where do you wanna play?")
 
         row: int = int(input("Select row: "))
         column: int = int(input("Select column: "))
@@ -85,6 +85,22 @@ class Game:
                 Dict[str, List[Tuple[int, int, str]]]: A dictionary with 3 key-value pairs. The key is one of the 3 difference types,
                     and the value is a list of tuples. Each tuple contains 3 items. The first 2 are the coordinates of the cell, and 
                     the last is the symbol that is different.
+
+                For example:
+                    {
+                        'plus': [(2, 1, 'O')], 
+                        'minus': [(1, 1, 'O')], 
+                        'diff': [(0, 0, 'O'), (0, 2, 'X')]
+                    }
+
+                    means:
+
+                    - The stateB has symbol 'O' at coordinates: (row, column) = (2, 1) but the stateA has no symbol at the same cell
+                    - The stateA has symbol 'O' at coordinates: (row, column) = (1, 1) but the stateB has no symbol at the same cell
+                    - The stateB has symbol 'O' at coordinates: (row, column) = (0, 0) but the stateA has symbol 'X' at the same cell
+                    - The stateB has symbol 'X' at coordinates: (row, column) = (0, 2) but the stateA has symbol 'O' at the same cell
+
+
         '''
 
         result: Dict[str, List[Tuple[int, int, str]]] = {
@@ -93,8 +109,8 @@ class Game:
             "diff": []
         }
 
-        for row in range(self.dimension):
-            for column in range(self.dimension):
+        for row in range(self.__dimension):
+            for column in range(self.__dimension):
                 stateACellIsEmpty: bool = stateA.cellIsEmpty(row, column)
                 stateBCellIsEmpty: bool = stateB.cellIsEmpty(row, column)
 
