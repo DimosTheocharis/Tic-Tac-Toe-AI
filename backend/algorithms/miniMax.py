@@ -4,18 +4,18 @@ from backend.algorithms.utils import findOpponent
 
 class MiniMax:
     def __init__(self, playerA: str, playerB: str):
-        self.players: tuple[str, str] = (playerA, playerB)
-        self.childOptions: list[tuple[State, int]] = [] #it will save the direct children States of the State for which 
+        self.__players: tuple[str, str] = (playerA, playerB)
+        self.__childOptions: list[tuple[State, int]] = [] #it will save the direct children States of the State for which 
         #the MiniMax algorithm will be called ("prototype" state), and their heuristic value
 
-        self.__evaluationMethod: ThreeTwoOneEvaluation = ThreeTwoOneEvaluation(self.players)
+        self.__evaluationMethod: ThreeTwoOneEvaluation = ThreeTwoOneEvaluation(self.__players)
         self.__algorithmPlayer: str = " " #the player for which the algorithm was initially called
 
 
-    def miniMax(self, state, depth: int, player: str) -> State:
+    def miniMax(self, state: State, depth: int, player: str) -> State:
         '''
-            Reviews the states that can occur from the given {state}, if the {player} makes his move.
-            The most beneficial state for the {player} is returned.
+            Reviews the states that can occur from the given {state}, when the {player} makes his move.
+            The most beneficial state for the {player} among these states is returned.
 
             Parameters:
                 player (str): The symbol of the tic-tac-toe player who is currently playing
@@ -23,11 +23,12 @@ class MiniMax:
                     the {player} can make
                 depth (int): A number that specifies how deep the algorithm will search the minimax tree
         '''
+        self.__clearData()
         self.__algorithmPlayer = player
         minimaxValue: int = self.__execute(state, True, depth, player, True)
 
         # Find the state of the tic-tac-toe game that will occur if the {player} make his most benefical move
-        for option in self.childOptions:
+        for option in self.__childOptions:
             if (option[1] == minimaxValue):
                return option[0]
 
@@ -53,7 +54,7 @@ class MiniMax:
         if (depth == 0 or state.isVictory() or state.gridIsFull()):
             return self.__evaluationMethod.evaluate(state, self.__algorithmPlayer)
         
-        opponent: str = findOpponent(player, self.players)
+        opponent: str = findOpponent(player, self.__players)
         childStates: list[State] = state.getChildStates(player)
 
         if (maximizePlayer):
@@ -65,7 +66,7 @@ class MiniMax:
 
                 if (firstTime):
                     # Save the child states of the initial state (prototype) and their heuristic value
-                    self.childOptions.append((child, childValue))
+                    self.__childOptions.append((child, childValue))
 
         else:
             value: int = 1000
@@ -76,10 +77,17 @@ class MiniMax:
 
                 if (firstTime):
                     # Save the child states of the initial state (prototype) and their heuristic value
-                    self.childOptions.append((child, childValue))
+                    self.__childOptions.append((child, childValue))
 
 
         return value
+    
+
+    def __clearData(self) -> None:
+        '''
+            Resets the data that algorithm uses, back to their initial form
+        '''
+        self.__childOptions = []
 
 
 
