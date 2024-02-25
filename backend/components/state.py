@@ -23,26 +23,72 @@ class State:
         '''
             Prints in console a visual representation of the grid. For example
 
-            O|X|X
-
-            X|O|X
-
-            O|O|O
+               0 1 2
+              -------
+            0 |O|X|X|
+              |-----|
+            1 |X|O|X|
+              |-----|
+            2 |O|O|O|
+              -------
 
         '''
+        # Print column indicators
+        print("   ", end='')
+        for i in range(self.dimension):
+            print(i, end='')
+            print(' ', end='')
+        print()
+
+        # Print top edge ('-------')
+        print("  ", end='')
+        for i in range(2 * self.dimension + 1):
+            print("-", end='')
+        print()
+
+        # Print first {self.dimension - 1} lines with seperator line ('|-----|') under them 
         for i in range(self.dimension - 1):
+            # Print row indicators 
+            print(i, end='')
+            print(' ', end='')
+
+            # Print left edge part ('|')
+            print('|', end='')
+
+            # Print the symbol of the cell, and a '|' column seperator after
             for j in range(self.dimension - 1):
                 print(self.__grid[i][j], end='')
                 print("|", end='')
-            print(self.__grid[i][self.dimension - 1])
+
+            # Print last symbol of the row
+            print(self.__grid[i][self.dimension - 1], end='')
+
+            # Print right edge part ('|')
+            print('|')
+
+            # Print seperator line
+            print("  ", end='')
+            print('|', end='')
             for j in range(2 * self.dimension - 1):
                 print("-", end='')
+            print('|', end='')
             print()
         
+        # Print last line, without extra seperator line ('|-----|') under them
+        print(self.dimension - 1, end='')
+        print(' ', end='')
+        print('|', end='')
         for j in range(self.dimension - 1):
             print(self.__grid[self.dimension - 1][j], end='')
             print("|", end='')
-        print(self.__grid[self.dimension - 1][self.dimension - 1])
+        print(self.__grid[self.dimension - 1][self.dimension - 1], end='')
+        print('|')
+
+        # Print bottom edge ('-------')
+        print("  ", end='')
+        for i in range(2 * self.dimension + 1):
+            print("-", end='')
+        print()
 
 
     def play(self, symbol: str, row: int, column: int) -> bool:

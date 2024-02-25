@@ -28,6 +28,9 @@ class Game:
                     coordinates: tuple[int, int] = (stateDifference["plus"][0][0], stateDifference["plus"][0][1])
                     self.state.play(self.currentPlayer, coordinates[0], coordinates[1])
                     print(f"Computer placed {self.currentPlayer} in (row, column) = ({coordinates[0]},{coordinates[1]})")
+                else:
+                    print("Computed failed to play. You may play again.")
+                    break
 
             else:
                 coordinates: tuple[int, int] = self.receivePlayerInput()

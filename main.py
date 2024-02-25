@@ -9,19 +9,6 @@ game: Game = Game()
 game.newGame()
 
 
-a: State = State(3)
-a.assignGrid([
-    ['X', ' ', ' '],
-    ['X', 'O', ' '],
-    [' ', ' ', ' ']
-])
-
-
-miniMax: MiniMax = MiniMax('X', 'O')
-miniMax.miniMax(a, 8, 'O').printGrid()
-
-
-
 
 
 
