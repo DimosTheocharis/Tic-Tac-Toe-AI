@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-class State:
+class State():
     def __init__(self, dimension: int):
         self.dimension = dimension
         self.__createGrid()
@@ -9,7 +9,7 @@ class State:
         '''
             Creates a self.dimension X self.dimension grid and fills its cells with ' '
         '''
-        self.__grid = [[' ' for j in range(self.dimension)] for i in range(self.dimension)]
+        self.__grid: list[list[str]] = [[' ' for j in range(self.dimension)] for i in range(self.dimension)]
 
 
     def assignGrid(self, grid: list[list[str]]):

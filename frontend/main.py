@@ -1,6 +1,9 @@
 from setup import setupFrontend
+import pygame
 
 setupFrontend()
+
+pygame.init()
 
 from windowController import WindowController
 

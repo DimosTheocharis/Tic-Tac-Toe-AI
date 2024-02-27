@@ -3,6 +3,7 @@ from pygame import Surface
 from pygame.time import Clock
 
 from screens.gameScreen import GameScreen
+from styles.general import Colors
 
 class WindowController:
     '''
@@ -12,7 +13,7 @@ class WindowController:
     
     def __init__(self):
         self.__width = 600
-        self.__height = 600
+        self.__height = 700
         self.__fps = 30
         self.__running = True
         self.__currentScreen: GameScreen = GameScreen(self.__width, self.__height)
@@ -25,7 +26,7 @@ class WindowController:
                 if event.type == pygame.QUIT:
                     self.__running = False
 
-            self.__window.fill("purple")
+            self.__window.fill(Colors["white"])
 
             self.__currentScreen.display(self.__window)
 

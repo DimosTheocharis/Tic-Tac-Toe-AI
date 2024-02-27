@@ -11,6 +11,12 @@ class Game:
         self.__currentPlayer: str = self.__playerA
         self.__computerIsPlaying: bool = False
         self.__miniMax: MiniMax = MiniMax(self.__playerA, self.__playerB)
+        self.__state = State(self.__dimension)
+        self.__state.assignGrid([
+            ['X', ' ', 'Y'],
+            [' ', 'X', 'Y'],
+            [' ', ' ', 'X']
+        ])
 
     def newGame(self):
         '''
@@ -127,4 +133,7 @@ class Game:
 
         return result
     
+
+    def getState(self) -> State:
+        return self.__state
         
