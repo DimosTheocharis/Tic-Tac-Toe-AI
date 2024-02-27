@@ -1,5 +1,5 @@
-from backend.components.state import State
-from backend.algorithms.utils import findOpponent
+from components.state import State
+from algorithms.utils import findOpponent
 
 class ThreeTwoOneEvaluation:
     '''

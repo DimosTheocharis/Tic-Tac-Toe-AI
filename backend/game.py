@@ -1,6 +1,6 @@
 from typing import Dict, List, Tuple
-from backend.components.state import State
-from backend.algorithms.miniMax import MiniMax
+from components.state import State
+from algorithms.miniMax import MiniMax
 
 class Game:
     def __init__(self):

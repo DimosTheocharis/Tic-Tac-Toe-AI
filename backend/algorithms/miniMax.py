@@ -1,6 +1,7 @@
-from backend.components.state import State
-from backend.algorithms.evaluationMethods.threeTwoOneEvaluation import ThreeTwoOneEvaluation
-from backend.algorithms.utils import findOpponent
+#from backend.components.state import State
+from components.state import State
+from algorithms.evaluationMethods.threeTwoOneEvaluation import ThreeTwoOneEvaluation
+from algorithms.utils import findOpponent
 
 class MiniMax:
     def __init__(self, playerA: str, playerB: str):
