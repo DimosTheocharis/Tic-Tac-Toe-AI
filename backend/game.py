@@ -1,4 +1,5 @@
 from typing import Dict, List, Tuple
+
 from components.state import State
 from algorithms.miniMax import MiniMax
 

@@ -2,8 +2,12 @@
 import pygame
 from pygame import Surface
 
+import sys
+print("\n\n\n")
+print(sys.path)
+
 from screens.generalScreen import GeneralScreen
-# from ...backend.game import Game
+from backend.game import Game
 
 # pygame setup
 # pygame.init()
