@@ -1,7 +1,9 @@
+from typing import Generator
+
 import pygame
 from pygame import Surface
-from backend.components.state import State
 
+from backend.components.state import State
 from screens.generalScreen import GeneralScreen
 from backend.game import Game
 from styles.general import Colors, Fonts
@@ -18,6 +20,8 @@ class GameScreen(GeneralScreen):
 
         self.__game: Game = Game()
 
+        self.__gameGenerator: Generator = self.__game.newFrontendGame()
+
         self.__defineStyleVariables()
 
 
@@ -28,8 +32,17 @@ class GameScreen(GeneralScreen):
         self.__symbolForegroundColor = Colors["black"]
     
 
-    def display(self, window: Surface) -> None:
+    def display(self, window: Surface, events) -> None:
         self.drawGrid(window)
+
+        for event in events:
+            if (event.type == pygame.MOUSEBUTTONDOWN):
+                x, y = pygame.mouse.get_pos()
+                self.__gameGenerator.__next__()
+
+                row: int = y // self.__cellHeight
+                column: int = x // self.__cellWidth
+
 
 
     def drawGrid(self, window: Surface):

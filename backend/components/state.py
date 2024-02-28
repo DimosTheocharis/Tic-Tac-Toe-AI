@@ -91,30 +91,17 @@ class State():
         print()
 
 
-    def play(self, symbol: str, row: int, column: int) -> bool:
+    def play(self, symbol: str, row: int, column: int) -> None:
         '''
-            Implements the move of a player in given coordinates. If dimensions are out of limit or the corresponding 
-            cell is already filled, then logs a relative message and returns.
+            Implements the move of a player in given coordinates. The coordinates must be checked before entering this function!
 
             Parameters:
                 symbol (str): A character that is related to the player playing
                 row (int): The row of the grid that contains the cell where the symbol is going to be placed
                 column (int): The column of the grid that contains the cell where the symbol is going to be placed
-
-            Returns:
-                bool: True if the move executed successfully, False otherwise
         '''
-        if (row >= self.dimension or column >= self.dimension):
-            print("Coordinates out of limit.")
-            return False
-        
-        if (self.__grid[row][column] != " "):
-            print("Place already occupied.")
-            return False
         
         self.__grid[row][column] = symbol
-
-        return True
     
 
     def isVictory(self) -> bool:

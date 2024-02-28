@@ -16,19 +16,20 @@ class WindowController:
         self.__height = 700
         self.__fps = 30
         self.__running = True
-        self.__currentScreen: GameScreen = GameScreen(self.__width, self.__height)
+        self.__currentScreen: GameScreen = GameScreen(self.__width, self.__width)
         self.__window: Surface = pygame.display.set_mode((self.__width, self.__height))
         self.__clock: Clock = pygame.time.Clock()
 
     def display(self):
         while (self.__running):
-            for event in pygame.event.get():
+            events = pygame.event.get()
+            for event in events:
                 if event.type == pygame.QUIT:
                     self.__running = False
 
             self.__window.fill(Colors["white"])
 
-            self.__currentScreen.display(self.__window)
+            self.__currentScreen.display(self.__window, events)
 
             pygame.display.flip()
 

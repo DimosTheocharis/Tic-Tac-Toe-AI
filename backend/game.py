@@ -3,6 +3,11 @@ from typing import Dict, List, Tuple
 from components.state import State
 from algorithms.miniMax import MiniMax
 
+class PlayerMoveResponse:
+    def __init__(self, successful: bool, message: str):
+        self.successful: bool = successful
+        self.message: str = message
+
 class Game:
     def __init__(self):
         self.__dimension: int = 3
@@ -18,14 +23,15 @@ class Game:
             [' ', ' ', 'X']
         ])
 
-    def newGame(self):
+    def newTerminalGame(self):
         '''
-            Starts a new Tic-Tac-toe game.
+            Starts a new Tic-Tac-toe game in terminal.
         '''
         self.__state = State(self.__dimension)
         while (not (self.__state.isVictory() or self.__state.gridIsFull())):
             self.__state.printGrid()
             print("")
+
             if (self.__computerIsPlaying):
                 nextState: State = self.__miniMax.miniMax(self.__state, 8, self.__currentPlayer)
 
@@ -40,12 +46,18 @@ class Game:
                     break
 
             else:
-                coordinates: tuple[int, int] = self.__receivePlayerInput()
+                stop: bool = False
+                while (not stop):
+                    coordinates: tuple[int, int] = self.__receivePlayerInput()
 
-                while(not self.__state.play(self.__currentPlayer, coordinates[0], coordinates[1])):
-                    print("Please try again")
-                    self.__state.printGrid()
-                    coordinates = self.__receivePlayerInput()
+                    if (self.__coordinatesOutOfLimit(coordinates)):
+                        print("Coordinates out of limit. Try again: ")
+                    elif (self.__cellAlreadyOccupied(coordinates)):
+                        print("Place already occupied. Try again: ")
+                    else:
+                        self.__state.play(self.__currentPlayer, coordinates[0], coordinates[1])
+                        stop = True
+
                 
             self.__switchTurn()
             print("")
@@ -56,6 +68,69 @@ class Game:
             print(f"Player {self.__currentPlayer} wins!")
         else:
             print("The game results to tie!")
+
+
+    def getPlayerCoordinatesByFrontend(self, coordinates: Tuple[int, int]) -> PlayerMoveResponse:
+        successful: bool = self.__state.play(self.__currentPlayer, coordinates[0], coordinates[1])
+
+        if (successful):
+            return PlayerMoveResponse(successful, "Something went wrong")
+        else:
+            return PlayerMoveResponse()
+        
+
+    def __coordinatesOutOfLimit(self, coordinates: Tuple[int, int]) -> bool:
+        '''
+            Checks if the given coordinates are out of limit. The coordinates are out of limit if they are 
+            negative or larger than the dimension of the grid
+
+            Parameters:
+                coordinates (Tuple[int, int]): (row, column) positions
+        '''
+        return coordinates[0] < 0 or coordinates[0] >= self.__dimension or coordinates[1] < 0 or coordinates[1] >= self.__dimension
+    
+
+    def __cellAlreadyOccupied(self, coordinates: Tuple[int, int]) -> bool:
+        '''
+            Checks if the cell of the state in the given {coordinates} contains a non-empty symbol.
+
+            Parameters:
+                coordinates (Tuple[int, int]): (row, column) positions
+        '''
+        symbol: str = self.__state.getCellSymbol(coordinates[0], coordinates[1])
+
+        return symbol != ' '
+
+    
+
+
+    # def newFrontendGame(self):
+    #     '''
+    #         Starts a new Tic-Tac-toe game that interacts with players input in frontend with the help of 
+    #         python generators
+    #     '''
+    #     # Initiliaze a new state for the new game
+    #     self.__state = State(self.__dimension)
+
+    #     while(True):
+    #         # Get the coordinates of the cell where the player who is currently playing, wants to place his symbol
+    #         coordinates: tuple[int, int] = yield 
+
+    #         if (coordinates == None):
+    #             continue
+
+
+    #         if (not self.__computerIsPlaying):
+    #             while(not self.__state.play(self.__currentPlayer, coordinates[0], coordinates[1])):
+    #                 print("Please try again:")
+    #                 coordinates = yield 
+    #                 print(f"--> {coordinates}")
+
+            
+
+
+
+
 
 
     def __switchTurn(self) -> None:
@@ -133,7 +208,6 @@ class Game:
 
         return result
     
-
     def getState(self) -> State:
         return self.__state
         
