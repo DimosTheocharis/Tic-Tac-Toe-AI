@@ -70,13 +70,20 @@ class Game:
             print("The game results to tie!")
 
 
-    def getPlayerCoordinatesByFrontend(self, coordinates: Tuple[int, int]) -> PlayerMoveResponse:
-        successful: bool = self.__state.play(self.__currentPlayer, coordinates[0], coordinates[1])
+    def playFromFrontend(self, coordinates: Tuple[int, int]) -> PlayerMoveResponse:
+        '''
+            Performs the move of the player who is currently playing, in the given {coordinates}. \n
+            The move will be performed if {coordinates} are valid (inside of limit), and the cell is not occupied.
 
-        if (successful):
-            return PlayerMoveResponse(successful, "Something went wrong")
+            Parameters:
+                coordinates (Tuple[int, int]): (row, column) positions
+        '''
+        if (self.__cellAlreadyOccupied(coordinates)):
+            return PlayerMoveResponse(False, f"There is already a symbol in the cell ({coordinates[0]}, {coordinates[1]})!")
+        elif (self.__coordinatesOutOfLimit(coordinates)):
+            return PlayerMoveResponse(False, "Coordinates out of limit!")
         else:
-            return PlayerMoveResponse()
+            return PlayerMoveResponse(True, "Successful movement.")
         
 
     def __coordinatesOutOfLimit(self, coordinates: Tuple[int, int]) -> bool:
@@ -100,34 +107,6 @@ class Game:
         symbol: str = self.__state.getCellSymbol(coordinates[0], coordinates[1])
 
         return symbol != ' '
-
-    
-
-
-    # def newFrontendGame(self):
-    #     '''
-    #         Starts a new Tic-Tac-toe game that interacts with players input in frontend with the help of 
-    #         python generators
-    #     '''
-    #     # Initiliaze a new state for the new game
-    #     self.__state = State(self.__dimension)
-
-    #     while(True):
-    #         # Get the coordinates of the cell where the player who is currently playing, wants to place his symbol
-    #         coordinates: tuple[int, int] = yield 
-
-    #         if (coordinates == None):
-    #             continue
-
-
-    #         if (not self.__computerIsPlaying):
-    #             while(not self.__state.play(self.__currentPlayer, coordinates[0], coordinates[1])):
-    #                 print("Please try again:")
-    #                 coordinates = yield 
-    #                 print(f"--> {coordinates}")
-
-            
-
 
 
 

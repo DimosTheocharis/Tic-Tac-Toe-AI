@@ -3,14 +3,12 @@ from pygame import Surface
 from pygame.time import Clock
 
 from screens.gameScreen import GameScreen
-from styles.general import Colors
+from styles.generalStyles import Colors
 
 class WindowController:
     '''
         Handles the displaying, refreshing of the window and the screens switching.
     '''
-
-    
     def __init__(self):
         self.__width = 600
         self.__height = 700
