@@ -12,6 +12,7 @@ def setupFrontend():
 
     relativeDirectories: list[str] = [
         "",
+        "middleware",
         "backend"
     ]
 

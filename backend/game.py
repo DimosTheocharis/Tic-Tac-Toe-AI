@@ -17,11 +17,6 @@ class Game:
         self.__computerIsPlaying: bool = False
         self.__miniMax: MiniMax = MiniMax(self.__playerA, self.__playerB)
         self.__state = State(self.__dimension)
-        self.__state.assignGrid([
-            ['X', ' ', 'Y'],
-            [' ', 'X', 'Y'],
-            [' ', ' ', 'X']
-        ])
 
     def newTerminalGame(self):
         '''
@@ -37,7 +32,7 @@ class Game:
 
                 stateDifference: Dict[str, List[Tuple[int, int, str]]] = self.findDifferencesBetweenStates(self.__state, nextState)
 
-                if (len(stateDifference["plus"]) == 1 and len(stateDifference["minus"]) == 0 and len(stateDifference["diff"]) == 0):
+                if (self.__stateDifferenceIsValid(stateDifference)):
                     coordinates: tuple[int, int] = (stateDifference["plus"][0][0], stateDifference["plus"][0][1])
                     self.__state.play(self.__currentPlayer, coordinates[0], coordinates[1])
                     print(f"Computer placed {self.__currentPlayer} in (row, column) = ({coordinates[0]},{coordinates[1]})")
@@ -70,6 +65,28 @@ class Game:
             print("The game results to tie!")
 
 
+    def requestAlgorithmMove(self) -> PlayerMoveResponse:
+        '''
+            Requests algorithm to play its move based on the current state of the game.
+        '''
+        nextState: State = self.__miniMax.miniMax(self.__state, 8, self.__currentPlayer)
+
+        stateDifference: Dict[str, List[Tuple[int, int, str]]] = self.findDifferencesBetweenStates(self.__state, nextState)
+
+        if (self.__stateDifferenceIsValid(stateDifference)):
+            coordinates: tuple[int, int] = (stateDifference["plus"][0][0], stateDifference["plus"][0][1])
+            self.__state.play(self.__currentPlayer, coordinates[0], coordinates[1])
+
+            symbol: str = self.__currentPlayer
+            self.__switchTurn()
+
+            return PlayerMoveResponse(True, f"Computer placed {symbol} in (row, column) = ({coordinates[0]}, {coordinates[1]})")
+        
+        else:
+            return PlayerMoveResponse(False, "Something is wrong with the algorithm :(")
+
+
+
     def playFromFrontend(self, coordinates: Tuple[int, int]) -> PlayerMoveResponse:
         '''
             Performs the move of the player who is currently playing, in the given {coordinates}. \n
@@ -82,8 +99,19 @@ class Game:
             return PlayerMoveResponse(False, f"There is already a symbol in the cell ({coordinates[0]}, {coordinates[1]})!")
         elif (self.__coordinatesOutOfLimit(coordinates)):
             return PlayerMoveResponse(False, "Coordinates out of limit!")
+        elif (self.__state.isVictory() or self.__state.gridIsFull()):
+            return PlayerMoveResponse(False, "Game has ended!")
         else:
-            return PlayerMoveResponse(True, "Successful movement.")
+            self.__state.play(self.__currentPlayer, coordinates[0], coordinates[1])
+            symbol: str = self.__currentPlayer
+            
+            self.__switchTurn()
+
+            if (self.__state.isVictory()):
+                return PlayerMoveResponse(True, f"Game ended, player {symbol} won!")
+            elif (self.__state.gridIsFull()):
+                return PlayerMoveResponse(True, f"Game ended, the result is tie!")
+            return PlayerMoveResponse(True, f"Player {symbol} played in (row, column) = ({coordinates[0]}, {coordinates[1]})")
         
 
     def __coordinatesOutOfLimit(self, coordinates: Tuple[int, int]) -> bool:
@@ -110,8 +138,6 @@ class Game:
 
 
 
-
-
     def __switchTurn(self) -> None:
         '''
             Handles the switching of the player playing.
@@ -134,6 +160,7 @@ class Game:
 
         return (row, column)
     
+
 
     def findDifferencesBetweenStates(self, stateA: State, stateB: State) -> Dict[str, List[Tuple[int, int, str]]]:
         '''
@@ -187,6 +214,17 @@ class Game:
 
         return result
     
-    def getState(self) -> State:
-        return self.__state
-        
+
+    def __stateDifferenceIsValid(self, stateDifference: Dict[str, List[Tuple[int, int, str]]]) -> bool:
+        '''
+            Returns True or False whether the given {stateDifference} object contains only one difference 
+            of type 'plus'
+        '''
+        return len(stateDifference["plus"]) == 1 and len(stateDifference["minus"]) == 0 and len(stateDifference["diff"]) == 0
+    
+    
+    def getCellSymbol(self, row: int, column: int) -> str:
+        '''
+            Returns the symbol in the cell ({row}, {column}) of the current state of the game
+        '''
+        return self.__state.getCellSymbol(row, column)

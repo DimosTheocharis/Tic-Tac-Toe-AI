@@ -13,5 +13,6 @@ Colors: Dict[str, tuple[int, int, int]] = {
 
 
 Fonts: Dict[str, pygame.font.Font] = {
-    "verdana": pygame.font.SysFont('verdana',  70)
+    "verdana_big": pygame.font.SysFont('verdana',  70),
+    "verdana_small": pygame.font.SysFont('verdana', 20)
 }
