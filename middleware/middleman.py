@@ -1,27 +1,91 @@
 from typing import Tuple
+from enum import Enum
 
 from backend.game import Game, PlayerMoveResponse
+
+class GameStatus(Enum):
+    '''
+        Running: The game is running without any problem. 
+        Ended: The game has ended. Neither human nor compute can play. 
+        Idle: The game is waiting for the algorithm to make his move.
+    '''
+    RUNNING = 1
+    ENDED = 2
+    IDLE = 3
+
+class CurrentPlayer(Enum):
+    HUMAN = 1
+    COMPUTER = 2
 
 
 class Middleman:
     def __init__(self):
         self.__game: Game = Game()
+        self.gameStatus: GameStatus = GameStatus(GameStatus.RUNNING)
+        self.currentPlayer: CurrentPlayer = CurrentPlayer(CurrentPlayer.HUMAN)
 
-    def play(self, coordinates: Tuple[int, int]) -> str:
-        response: PlayerMoveResponse = self.__game.playFromFrontend(coordinates)
 
-        return response.message
-    
-    def playAlgorithm(self) -> str:
+    def humanWillPlay(self, coordinates: Tuple[int, int]) -> str:
         '''
-            Requests from algorithm to make his move
+            Requests from the backend to let the human player make his move in the cell at the given {coordinates}
+            of the grid. This will happen only if the game is still running, and if it's player's turn to play.
+
+            Returns: 
+                str: A message about the response of the backend or a message giving information about the failure of the move.
+        '''
+        if (self.gameStatus.name == "ENDED"):
+            return "Game has ended.."
+
+
+        if (self.currentPlayer == CurrentPlayer.HUMAN):
+            response: PlayerMoveResponse = self.__game.humanRequestsToPlayFromFrontend(coordinates)
+
+            if (response.successful):
+                self.currentPlayer = CurrentPlayer.COMPUTER
+
+            if (response.gameHasEnded):
+                self.gameStatus = GameStatus.ENDED
+
+            return response.message
+        
+        else:
+            return "Is not your turn to play..."
+    
+
+    
+    def computerWillPlay(self) -> str:
+        '''
+            Requests from the backend to let the algorithm make his move, based on the current state of the grid.
+            This will happen only if the game is still running, and if it's computer's turn to play.  
 
             Returns:
                 A message based on the action
         '''
-        response: PlayerMoveResponse = self.__game.requestAlgorithmMove()
+        if (self.gameStatus.name == "ENDED"):
+            return "Game has ended.."
+        
+        if (self.gameStatus.name == "IDLE"):
+            return "Waiting for the computer to play..."
+        
 
-        return response.message
+        if (self.currentPlayer == CurrentPlayer.COMPUTER and self.gameStatus.name == "RUNNING"):
+            self.gameStatus = GameStatus.IDLE
+            response: PlayerMoveResponse = self.__game.computerRequestsToPlayFromFrontend()
+
+            self.gameStatus = GameStatus.RUNNING
+
+            if (response.successful):
+                self.currentPlayer = CurrentPlayer.HUMAN
+
+            if (response.gameHasEnded):
+                self.gameStatus = GameStatus.ENDED
+
+            return response.message
+        
+        else:
+            return ""
+        
+
 
     def getCellSymbol(self, row: int, column: int) -> str:
         '''
@@ -30,3 +94,4 @@ class Middleman:
         '''
 
         return self.__game.getCellSymbol(row, column)
+    

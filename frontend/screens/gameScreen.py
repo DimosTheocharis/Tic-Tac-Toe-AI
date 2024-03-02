@@ -1,6 +1,5 @@
 from typing import List, Tuple
 import time
-import random
 import threading
 
 import pygame
@@ -18,9 +17,11 @@ class GameScreen(GeneralScreen):
         self.__dimension: int = 3
         self.__cellWidth: int = self.__width // self.__dimension
         self.__cellHeight: int = self.__height // self.__dimension
-        self.__informerPanelMessage: str = ""
+        self.__informerPanelMessage: str = "Your symbol is X. Play wherether you want."
 
         self.__middleman: Middleman = Middleman() # The interface between frontend and backend
+
+        self.__thread: threading.Thread | None = None
 
         self.__defineStyleVariables()
 
@@ -143,7 +144,6 @@ class GameScreen(GeneralScreen):
             converts the x,y coordinates from pixels to grid-coordinates.
 
         '''
-        print(random.randint(10, 100))
         for event in events:
             if (event.type == pygame.MOUSEBUTTONDOWN):
                 x, y = pygame.mouse.get_pos()
@@ -151,17 +151,21 @@ class GameScreen(GeneralScreen):
                 row: int = y // self.__cellHeight
                 column: int = x // self.__cellWidth
 
-                self.__informerPanelMessage = self.__middleman.play((row, column))
-                
-                th = threading.Thread(target=self.long)
-                th.start()
+                self.__informerPanelMessage = self.__middleman.humanWillPlay((row, column))
+
+                # Check if it's computer's turn to play, and if game is running
+                if (self.__middleman.currentPlayer.name == "COMPUTER" and self.__middleman.gameStatus.name == "RUNNING"):
+                    # Check if no other thread is already created. If there is, this means that an request has already been
+                    # made for the computer to play
+                    if (self.__thread == None):
+                        self.__thread = threading.Thread(target=self.requestComputerMoveWithDelay)
+                        self.__thread.start()
 
 
-    def long(self):
-        print("just_started_baby")
+    def requestComputerMoveWithDelay(self):
+        time.sleep(1.5)
+        self.__informerPanelMessage = "Waiting for the computer to play..."
+        time.sleep(1.5)
 
-        time.sleep(2)
-
-        self.__informerPanelMessage = "Waiting for the algorithm to play..."
-
-        print("just_finished_baby")
+        self.__informerPanelMessage = self.__middleman.computerWillPlay()
+        self.__thread = None

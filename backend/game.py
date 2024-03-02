@@ -4,8 +4,9 @@ from components.state import State
 from algorithms.miniMax import MiniMax
 
 class PlayerMoveResponse:
-    def __init__(self, successful: bool, message: str):
+    def __init__(self, successful: bool, message: str, gameHasEnded: bool = False):
         self.successful: bool = successful
+        self.gameHasEnded: bool = gameHasEnded
         self.message: str = message
 
 class Game:
@@ -65,9 +66,9 @@ class Game:
             print("The game results to tie!")
 
 
-    def requestAlgorithmMove(self) -> PlayerMoveResponse:
+    def computerRequestsToPlayFromFrontend(self) -> PlayerMoveResponse:
         '''
-            Requests algorithm to play its move based on the current state of the game.
+            The frontend requests algorithm to make its move based on the current state of the game (frontend).
         '''
         nextState: State = self.__miniMax.miniMax(self.__state, 8, self.__currentPlayer)
 
@@ -80,14 +81,18 @@ class Game:
             symbol: str = self.__currentPlayer
             self.__switchTurn()
 
-            return PlayerMoveResponse(True, f"Computer placed {symbol} in (row, column) = ({coordinates[0]}, {coordinates[1]})")
+            if (self.__state.isVictory()):
+                return PlayerMoveResponse(True, f"Game ended, player {symbol} won!", True)
+            elif (self.__state.gridIsFull()):
+                return PlayerMoveResponse(True, f"Game ended, the result is tie!", True)
+            return PlayerMoveResponse(True, f"Computer placed {symbol} in (row, column) = ({coordinates[0]}, {coordinates[1]})", False)
         
         else:
-            return PlayerMoveResponse(False, "Something is wrong with the algorithm :(")
+            return PlayerMoveResponse(False, "Something is wrong with the algorithm :(", True)
 
 
 
-    def playFromFrontend(self, coordinates: Tuple[int, int]) -> PlayerMoveResponse:
+    def humanRequestsToPlayFromFrontend(self, coordinates: Tuple[int, int]) -> PlayerMoveResponse:
         '''
             Performs the move of the player who is currently playing, in the given {coordinates}. \n
             The move will be performed if {coordinates} are valid (inside of limit), and the cell is not occupied.
@@ -100,7 +105,7 @@ class Game:
         elif (self.__coordinatesOutOfLimit(coordinates)):
             return PlayerMoveResponse(False, "Coordinates out of limit!")
         elif (self.__state.isVictory() or self.__state.gridIsFull()):
-            return PlayerMoveResponse(False, "Game has ended!")
+            return PlayerMoveResponse(False, "Game has ended!", True)
         else:
             self.__state.play(self.__currentPlayer, coordinates[0], coordinates[1])
             symbol: str = self.__currentPlayer
@@ -108,10 +113,10 @@ class Game:
             self.__switchTurn()
 
             if (self.__state.isVictory()):
-                return PlayerMoveResponse(True, f"Game ended, player {symbol} won!")
+                return PlayerMoveResponse(True, f"Game ended, player {symbol} won!", True)
             elif (self.__state.gridIsFull()):
-                return PlayerMoveResponse(True, f"Game ended, the result is tie!")
-            return PlayerMoveResponse(True, f"Player {symbol} played in (row, column) = ({coordinates[0]}, {coordinates[1]})")
+                return PlayerMoveResponse(True, f"Game ended, the result is tie!", True)
+            return PlayerMoveResponse(True, f"Player {symbol} played in (row, column) = ({coordinates[0]}, {coordinates[1]})", False)
         
 
     def __coordinatesOutOfLimit(self, coordinates: Tuple[int, int]) -> bool:
