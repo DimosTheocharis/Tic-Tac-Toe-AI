@@ -9,6 +9,7 @@ from pygame.event import Event
 from screens.generalScreen import GeneralScreen
 from styles.generalStyles import Colors, Fonts
 from middleware.middleman import Middleman
+from components.victoryVisualizer import VictoryVisualizer, VictoryVisualizationType
 
 class GameScreen(GeneralScreen):
     def __init__(self, width: int, height: int):
@@ -20,11 +21,11 @@ class GameScreen(GeneralScreen):
         self.__informerPanelMessage: str = "Your symbol is X. Play wherether you want."
 
         self.__middleman: Middleman = Middleman() # The interface between frontend and backend
-
         self.__thread: threading.Thread | None = None
 
         self.__defineStyleVariables()
 
+        self.__visualizer: VictoryVisualizer = VictoryVisualizer(self.__cellWidth, self.__cellHeight, self.__lineThickness, self.__dimension)
 
     def __defineStyleVariables(self):
         self.__lineThickness = 15
@@ -38,15 +39,18 @@ class GameScreen(GeneralScreen):
         self.__panelForegroundColor = Colors["black"]
         self.__oddCellColor = Colors["deepBlue"]
         self.__evenCellColor = Colors["petrol"]
+
+        self.__lostCellBackgroundColor = Colors["pink"]
+        self.__lostCellBorderColor = Colors["darkPurple"]
     
 
     def display(self, window: Surface) -> None:
-        self.drawGrid(window)
+        self.__drawGrid(window)
         self.__drawInformerPanel(window)
 
 
 
-    def drawGrid(self, window: Surface):
+    def __drawGrid(self, window: Surface):
         '''
             This method is responsible for drawing the Tic-Tac-Toe grid
         '''
@@ -60,7 +64,34 @@ class GameScreen(GeneralScreen):
 
         self.__drawSymbols(window)
 
+        self.__visualizer.display(window, self.__lostCellBorderColor)
+
+        # pygame.draw.rect(window, (138, 43, 226), (0, 0, self.__cellWidth, self.__cellHeight))
+
+        # offset: int = self.__lineThickness // 2
+
+        # c = (75, 0, 130)
+
+        # pygame.draw.line(window, c, (0, offset), (self.__cellWidth, offset), self.__lineThickness)
+        # pygame.draw.line(window, c, (offset, 0), (offset, self.__cellHeight), self.__lineThickness)
+
+        # pygame.draw.line(window, c, (0, 1 * self.__cellHeight), (self.__cellWidth, 1 * self.__cellHeight), self.__lineThickness)
+        # pygame.draw.line(window, c, (1 * self.__cellWidth, 0), (1 * self.__cellWidth, self.__cellHeight), self.__lineThickness)
+
+        # pygame.draw.line(window, c, (self.__cellWidth, 1 * self.__cellHeight), (2 * self.__cellWidth, 1 * self.__cellHeight), self.__lineThickness)
+        # pygame.draw.line(window, c, (1 * self.__cellWidth, self.__cellHeight), (1 * self.__cellWidth, 2 * self.__cellHeight), self.__lineThickness)
+
+        # pygame.draw.line(window, c, (self.__cellWidth - offset, 2 * self.__cellHeight), (2 * self.__cellWidth - offset, 2 * self.__cellHeight), self.__lineThickness)
+        # pygame.draw.line(window, c, (2 * self.__cellWidth, self.__cellHeight - offset), (2 * self.__cellWidth, 2 * self.__cellHeight - offset), self.__lineThickness)
+
+        # pygame.draw.line(window, c, (2 * self.__cellWidth, 2 * self.__cellHeight), (3 * self.__cellWidth, 2 * self.__cellHeight), self.__lineThickness)
+        # pygame.draw.line(window, c, (offset, 2 * self.__cellHeight), (offset, 2 * self.__cellHeight), self.__lineThickness)
+
+        # pygame.draw.line(window, c, (0, 1 * self.__cellHeight), (self.__cellWidth, 1 * self.__cellHeight), self.__lineThickness)
+        # pygame.draw.line(window, c, (1 * self.__cellWidth, 0), (1 * self.__cellWidth, self.__cellHeight), self.__lineThickness)
     
+
+
     def __drawCells(self, window: Surface) -> None:
         '''
             Draws the cells of the tic-tac-toe grid in alternate colors
@@ -162,10 +193,14 @@ class GameScreen(GeneralScreen):
                         self.__thread.start()
 
 
+                if (self.__middleman.gameStatus.name == "ENDED"):
+                    self.__visualizer.visualize(VictoryVisualizationType.SecondRow, 4)
+
+
     def requestComputerMoveWithDelay(self):
-        time.sleep(1.5)
+        time.sleep(1)
         self.__informerPanelMessage = "Waiting for the computer to play..."
-        time.sleep(1.5)
+        time.sleep(1)
 
         self.__informerPanelMessage = self.__middleman.computerWillPlay()
         self.__thread = None
