@@ -106,7 +106,6 @@ class VictoryVisualizer:
                 type (VictoryVisualizationType) -> Declares what visualize will visualize. For example VictoryVisualizationType.FirstRow
                     will draw a red border around the first row of the tic-tac-toe grid
         '''
-        print("mphka re sthn visualize")
         visualizationLines: List[VictoryVisualizationLine] = []
         startPointX: int = 0
         startPointY: int = 0
@@ -120,7 +119,39 @@ class VictoryVisualizer:
             case VictoryVisualizationType.SecondRow:
                 visualizationLines = self.__visualizeRow(1)
                 startPointX = 0
-                startPointY = self.__cellHeight
+                startPointY = 1 * self.__cellHeight
+
+            case VictoryVisualizationType.ThirdRow:
+                visualizationLines = self.__visualizeRow(2)
+                startPointX = 0
+                startPointY = 2 * self.__cellHeight
+
+            case VictoryVisualizationType.FirstColumn:
+                visualizationLines = self.__visualizeColumn(0)
+                startPointX = 0
+                startPointY = 0
+
+            case VictoryVisualizationType.SecondColumn:
+                visualizationLines = self.__visualizeColumn(1)
+                startPointX = 1 * self.__cellWidth
+                startPointY = 0
+
+            case VictoryVisualizationType.ThirdColumn:
+                visualizationLines = self.__visualizeColumn(2)
+                startPointX = 2 * self.__cellWidth
+                startPointY = 0
+
+            case VictoryVisualizationType.PrimaryDiagonal:
+                visualizationLines = self.__visualizePrimaryDiagonal()
+                print(visualizationLines)
+                startPointX = 0
+                startPointY = 0
+
+            case VictoryVisualizationType.SecondaryDiagonal:
+                visualizationLines = self.__visualizeSecondaryDiagonal()
+                startPointX = 0
+                startPointY = self.__dimension * self.__cellHeight
+            
 
         visualizationLines = self.__sortVisualizationLinesBasedOnAbsoluteDistance(visualizationLines, startPointX, startPointY)
         self.__determineVisualizationSteps(visualizationLines)
@@ -151,11 +182,11 @@ class VictoryVisualizer:
         startPointX: int = 0
         startPointY: int = row * self.__cellHeight
 
-        for x in range(self.__dimension):
+        for k in range(self.__dimension):
             upperLine: VictoryVisualizationLine = VictoryVisualizationLine(
-                startX = x * self.__cellWidth,
+                startX = k * self.__cellWidth,
                 startY = startPointY + (self.__offset if row == 0 else 0),
-                endX = (x + 1) * self.__cellWidth,
+                endX = (k + 1) * self.__cellWidth,
                 endY = startPointY,
                 direction = Direction.RIGHT,
                 ips = self.__ips,
@@ -164,9 +195,9 @@ class VictoryVisualizer:
             )
 
             lowerLine: VictoryVisualizationLine = VictoryVisualizationLine(
-                startX = x * self.__cellWidth,
+                startX = k * self.__cellWidth,
                 startY = startPointY + self.__cellHeight,
-                endX = (x + 1) * self.__cellWidth,
+                endX = (k + 1) * self.__cellWidth,
                 endY = startPointY + self.__cellHeight,
                 direction = Direction.RIGHT,
                 ips = self.__ips,
@@ -181,7 +212,7 @@ class VictoryVisualizer:
         leftLine: VictoryVisualizationLine = VictoryVisualizationLine(
             startX = startPointX + self.__offset,
             startY = startPointY,
-            endX = startPointX,
+            endX = startPointX + self.__offset,
             endY = startPointY + self.__cellHeight,
             direction = Direction.DOWN,
             ips = self.__ips,
@@ -192,7 +223,7 @@ class VictoryVisualizer:
         rightLine: VictoryVisualizationLine = VictoryVisualizationLine(
             startX = self.__dimension * self.__cellWidth - self.__offset,
             startY = startPointY,
-            endX = self.__dimension * self.__cellWidth,
+            endX = self.__dimension * self.__cellWidth - self.__offset,
             endY = startPointY + self.__cellHeight,
             direction = Direction.DOWN,
             ips = self.__ips,
@@ -210,7 +241,65 @@ class VictoryVisualizer:
         '''
             Determines the lines segments that will form the border of the selected {column}. 
         '''
-        pass
+
+        lines: List[VictoryVisualizationLine] = []
+
+        startPointX: int = column * self.__cellWidth
+        startPointY: int = 0
+
+        for k in range(self.__dimension):
+            leftLine: VictoryVisualizationLine = VictoryVisualizationLine(
+                startX = startPointX,
+                startY = k * self.__cellHeight,
+                endX = startPointX,
+                endY = (k + 1) * self.__cellHeight,
+                direction = Direction.DOWN,
+                ips = self.__ips,
+                duration = 1,
+                lineThickness = self.__lineThickness
+            )
+
+            rightLine: VictoryVisualizationLine = VictoryVisualizationLine(
+                startX = startPointX + self.__cellWidth,
+                startY = k * self.__cellHeight,
+                endX = startPointX + self.__cellWidth,
+                endY = (k + 1) * self.__cellHeight,
+                direction = Direction.DOWN,
+                ips = self.__ips,
+                duration = 1,
+                lineThickness = self.__lineThickness
+            )
+
+            lines.append(leftLine)
+            lines.append(rightLine)
+        
+        
+        upperLine: VictoryVisualizationLine = VictoryVisualizationLine(
+            startX = startPointX,
+            startY = startPointY + self.__offset,
+            endX = startPointX + self.__cellWidth,
+            endY = startPointY + self.__offset,
+            direction = Direction.RIGHT,
+            ips = self.__ips,
+            duration = 1,
+            lineThickness = self.__lineThickness
+        )
+
+        lowerLine: VictoryVisualizationLine = VictoryVisualizationLine(
+            startX = startPointX,
+            startY = self.__dimension * self.__cellHeight - self.__offset,
+            endX = startPointX + self.__cellWidth,
+            endY = self.__dimension * self.__cellHeight - self.__offset,
+            direction = Direction.RIGHT,
+            ips = self.__ips,
+            duration = 1,
+            lineThickness = self.__lineThickness
+        )
+
+        lines.append(upperLine)
+        lines.append(lowerLine)
+
+        return lines
 
 
     def __visualizePrimaryDiagonal(self) -> List[VictoryVisualizationLine]:
@@ -219,6 +308,59 @@ class VictoryVisualizer:
         '''
         pass
 
+        lines: List[VictoryVisualizationLine] = []
+
+        for k in range(self.__dimension):
+            upperLine: VictoryVisualizationLine = VictoryVisualizationLine(
+                startX = k * self.__cellWidth + (self.__offset if k > 0 and k < self.__dimension else 0),
+                startY = k * self.__cellHeight + (self.__offset if k == 0 else 0),
+                endX = (k + 1) * self.__cellWidth + (self.__offset if k > 0 and k < self.__dimension else 0),
+                endY = k * self.__cellHeight + (self.__offset if k == 0 else 0),
+                direction = Direction.RIGHT,
+                ips = self.__ips,
+                duration = 1,
+                lineThickness = self.__lineThickness
+            )
+
+            lowerLine: VictoryVisualizationLine = VictoryVisualizationLine(
+                startX = k * self.__cellWidth - (self.__offset if k > 0 and k < self.__dimension else 0),
+                startY = (k + 1) * self.__cellHeight - (self.__offset if k == self.__dimension - 1 else 0),
+                endX = (k + 1) * self.__cellWidth - (self.__offset if k > 0 and k < self.__dimension else 0),
+                endY = (k + 1) * self.__cellHeight - (self.__offset if k == self.__dimension - 1 else 0),
+                direction = Direction.RIGHT,
+                ips = self.__ips,
+                duration = 1,
+                lineThickness = self.__lineThickness
+            )
+
+            leftLine: VictoryVisualizationLine = VictoryVisualizationLine(
+                startX = k * self.__cellWidth + (self.__offset if k == 0 else 0),
+                startY = k * self.__cellHeight,
+                endX = k * self.__cellWidth + (self.__offset if k == 0 else 0),
+                endY = (k + 1) * self.__cellHeight,
+                direction = Direction.DOWN,
+                ips = self.__ips,
+                duration = 1,
+                lineThickness = self.__lineThickness
+            )
+
+            rightLine: VictoryVisualizationLine = VictoryVisualizationLine(
+                startX = (k + 1) * self.__cellWidth - (self.__offset if k == self.__dimension - 1 else 0),
+                startY = k * self.__cellHeight,
+                endX = (k + 1) * self.__cellWidth - (self.__offset if k == self.__dimension - 1 else 0),
+                endY = (k + 1) * self.__cellHeight,
+                direction = Direction.DOWN,
+                ips = self.__ips,
+                duration = 1,
+                lineThickness = self.__lineThickness
+            )
+                
+            lines.append(upperLine)
+            lines.append(lowerLine)
+            lines.append(leftLine)
+            lines.append(rightLine)
+
+        return lines
 
     def __visualizeSecondaryDiagonal(self) -> List[VictoryVisualizationLine]:
         '''
@@ -264,14 +406,15 @@ class VictoryVisualizer:
         '''
             The main logic of the visualization. Keeps visualization going forward in every step.
         '''
-        stepDuration: int = totalDuration // len(self.__visualizationSteps)
+        stepDuration: int = totalDuration / len(self.__visualizationSteps)
         sleepTime: int = 1 / self.__ips
 
+        print(totalDuration, len(self.__visualizationSteps))
         print(self.__ips * stepDuration)
         print(self.__ips, stepDuration, totalDuration)
 
         for step in self.__visualizationSteps:
-            for x in range(self.__ips * stepDuration):
+            for x in range(math.trunc(self.__ips * stepDuration)):
                 for line in step:
                     line.expand()
                 time.sleep(sleepTime)
