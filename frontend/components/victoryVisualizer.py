@@ -61,6 +61,9 @@ class VictoryVisualizationLine:
             case Direction.DOWN:
                 self.__currentY += self.__increase
 
+            case Direction.TOP:
+                self.__currentY += self.__increase
+
 
     def __determineTotalIncrease(self) -> int:
         match self.__direction:
@@ -68,6 +71,9 @@ class VictoryVisualizationLine:
                 return self.__endX - self.__startX
 
             case Direction.DOWN:
+                return self.__endY - self.__startY
+            
+            case Direction.TOP:
                 return self.__endY - self.__startY
             
     
@@ -143,7 +149,6 @@ class VictoryVisualizer:
 
             case VictoryVisualizationType.PrimaryDiagonal:
                 visualizationLines = self.__visualizePrimaryDiagonal()
-                print(visualizationLines)
                 startPointX = 0
                 startPointY = 0
 
@@ -306,7 +311,6 @@ class VictoryVisualizer:
         '''
             Determines the lines segments that will form the border of the primary diagonal.
         '''
-        pass
 
         lines: List[VictoryVisualizationLine] = []
 
@@ -366,7 +370,62 @@ class VictoryVisualizer:
         '''
             Determines the lines segments that will form the border of the secondary diagonal.
         '''
-        pass
+        
+        lines: List[VictoryVisualizationLine] = []
+
+        for k in range(self.__dimension):
+            m = self.__dimension - k - 1
+
+            upperLine: VictoryVisualizationLine = VictoryVisualizationLine(
+                startX = k * self.__cellWidth,
+                startY = m * self.__cellHeight + (self.__offset if k == self.__dimension - 1 else 0),
+                endX = (k + 1) * self.__cellWidth,
+                endY = m * self.__cellHeight + (self.__offset if k == self.__dimension - 1 else 0),
+                direction = Direction.RIGHT,
+                ips = self.__ips,
+                duration = 1,
+                lineThickness = self.__lineThickness
+            )
+
+            lowerLine: VictoryVisualizationLine = VictoryVisualizationLine(
+                startX = k * self.__cellWidth,
+                startY = (m + 1) * self.__cellHeight - (self.__offset if k == 0 else 0),
+                endX = (k + 1) * self.__cellWidth,
+                endY = (m + 1) * self.__cellHeight - (self.__offset if k == 0 else 0),
+                direction = Direction.RIGHT,
+                ips = self.__ips,
+                duration = 1,
+                lineThickness = self.__lineThickness
+            )
+
+            leftLine: VictoryVisualizationLine = VictoryVisualizationLine(
+                startX = k * self.__cellWidth + (self.__offset if k == 0 else 0),
+                startY = (m + 1) * self.__cellHeight - (self.__offset if k > 0 and k < self.__dimension - 1 else 0),
+                endX = k * self.__cellWidth + (self.__offset if k == 0 else 0),
+                endY = m * self.__cellHeight - (self.__offset if k > 0 and k < self.__dimension - 1 else 0),
+                direction = Direction.TOP,
+                ips = self.__ips,
+                duration = 1,
+                lineThickness = self.__lineThickness
+            )
+
+            rightLine: VictoryVisualizationLine = VictoryVisualizationLine(
+                startX = (k + 1) * self.__cellWidth - (self.__offset if k == self.__dimension - 1 else 0), 
+                startY = (m + 1) * self.__cellHeight + (self.__offset if k > 0 and k < self.__dimension - 1 else 0),
+                endX = (k + 1) * self.__cellWidth - (self.__offset if k == self.__dimension - 1 else 0),
+                endY = m * self.__cellHeight + (self.__offset if k > 0 and k < self.__dimension - 1 else 0),
+                direction = Direction.TOP,
+                ips = self.__ips,
+                duration = 1,
+                lineThickness = self.__lineThickness
+            )
+                
+            lines.append(upperLine)
+            lines.append(lowerLine)
+            lines.append(leftLine)
+            lines.append(rightLine)
+
+        return lines
 
     
     def __sortVisualizationLinesBasedOnAbsoluteDistance(self, lines: List[VictoryVisualizationLine], startPointX: int, startPointY: int) -> List[VictoryVisualizationLine]:
