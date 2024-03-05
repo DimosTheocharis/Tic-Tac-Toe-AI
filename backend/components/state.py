@@ -109,21 +109,21 @@ class State():
             Checks if one of the 2 players has won the game
         '''
         for i in range(self.dimension):
-            if (self.__checkRow(i)):
+            if (self.checkRow(i)):
                 return True
 
         for j in range(self.dimension):
-            if (self.__checkColumn(j)):
+            if (self.checkColumn(j)):
                 return True
 
-        if (self.__checkPrimaryDiagonal()):
+        if (self.checkPrimaryDiagonal()):
             return True
 
-        if (self.__checkSecondaryDiagonal()):
+        if (self.checkSecondaryDiagonal()):
             return True
 
 
-    def __checkRow(self, row: int) -> bool: 
+    def checkRow(self, row: int) -> bool: 
         '''
             Checks if the row at index {row} wins the game (contains 3 consecutive same symbols)
 
@@ -139,7 +139,7 @@ class State():
         return match 
 
 
-    def __checkColumn(self, column: int) -> bool: 
+    def checkColumn(self, column: int) -> bool: 
         '''
             Checks if the column at index {column} wins the game (contains 3 consecutive same symbols)
 
@@ -155,7 +155,7 @@ class State():
         return match 
 
 
-    def __checkPrimaryDiagonal(self) -> bool:
+    def checkPrimaryDiagonal(self) -> bool:
         '''
             Checks if the primary diagonal wins the game (contains 3 consecutive same symbols
 
@@ -171,7 +171,7 @@ class State():
         return match
 
     
-    def __checkSecondaryDiagonal(self) -> bool:
+    def checkSecondaryDiagonal(self) -> bool:
         '''
             Checks if the secondary diagonal wins the game (contains 3 consecutive same symbols).
             

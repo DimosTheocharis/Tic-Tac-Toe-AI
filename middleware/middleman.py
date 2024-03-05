@@ -95,3 +95,49 @@ class Middleman:
 
         return self.__game.getCellSymbol(row, column)
     
+
+    def checkIfRowWins(self, row: int) -> bool: 
+        '''
+            Checks if the given {row} of the grid of the current game performs tic-tac-toe.
+        '''
+        if (row < 0 or row >= self.__game.getDimension()):
+            return False
+
+        match row:
+            case 0:
+                return self.__game.checkIfRowWins(0)
+            case 1:
+                return self.__game.checkIfRowWins(1)
+            case 2:
+                return self.__game.checkIfRowWins(2)
+            
+
+    def checkIfColumnWins(self, column: int) -> bool: 
+        '''
+            Checks if the given {column} of the grid of the current game performs tic-tac-toe.
+        '''
+        if (column < 0 or column >= self.__game.getDimension()):
+            return False
+
+        match column:
+            case 0:
+                return self.__game.checkIfColumnWins(0)
+            case 1:
+                return self.__game.checkIfColumnWins(1)
+            case 2:
+                return self.__game.checkIfColumnWins(2)
+            
+
+    def checkIfPrimaryDiagonalWins(self) -> bool:
+        '''
+            Checks if the primary diagonal of the grid of the current game performs tic-tac-toe.
+        '''
+        return self.__game.checkIfPrimaryDiagonalWins()
+    
+    
+    def checkIfSecondaryDiagonalWins(self) -> bool:
+        '''
+            Checks if the secondary diagonal of the grid of the current game performs tic-tac-toe.
+        '''
+        return self.__game.checkIfSecondaryDiagonalWins()
+    

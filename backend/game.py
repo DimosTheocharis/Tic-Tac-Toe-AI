@@ -233,3 +233,54 @@ class Game:
             Returns the symbol in the cell ({row}, {column}) of the current state of the game
         '''
         return self.__state.getCellSymbol(row, column)
+    
+
+    def checkIfRowWins(self, row: int) -> bool: 
+        '''
+            Checks if the given {row} of the grid performs tic-tac-toe.
+        '''
+        match row:
+            case 0:
+                return self.__state.checkRow(0)
+            case 1:
+                return self.__state.checkRow(1)
+            case 2:
+                return self.__state.checkRow(2)
+            case _:
+                return False
+            
+
+    def checkIfColumnWins(self, column: int) -> bool: 
+        '''
+            Checks if the given {column} of the grid performs tic-tac-toe.
+        '''
+        match column:
+            case 0:
+                return self.__state.checkColumn(0)
+            case 1:
+                return self.__state.checkColumn(1)
+            case 2:
+                return self.__state.checkColumn(2)
+            case _:
+                return False
+            
+
+    def checkIfPrimaryDiagonalWins(self) -> bool:
+        '''
+            Checks if the primary diagonal of the grid performs tic-tac-toe.
+        '''
+        return self.__state.checkPrimaryDiagonal()
+    
+    
+    def checkIfSecondaryDiagonalWins(self) -> bool:
+        '''
+            Checks if the secondary diagonal of the grid performs tic-tac-toe.
+        '''
+        return self.__state.checkSecondaryDiagonal()
+    
+
+    def getDimension(self) -> int:
+        return self.__dimension
+    
+
+    
