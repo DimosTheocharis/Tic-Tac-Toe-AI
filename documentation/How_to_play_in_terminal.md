@@ -22,7 +22,7 @@ Open a terminal and run
     python -V
 ```
 
-in order to see if the python is installed in your computer and which version is installed.
+in order to see if python is installed in your computer and which version is installed.
 
 ![successful_python_download](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/BackendDocumentation/screenshots/how_to_run_backend/successful_python_download.png)  
 
@@ -71,3 +71,5 @@ For example here i placed my symbol 'X' in the third column (column = 2) of the 
 Here the algorithm responded with a move at (row, column) = (1, 1), right in the middle of the grid.
 
 ![algorithm_makes_its_move](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/BackendDocumentation/screenshots/how_to_run_backend/algorithm_makes_its_move.png)  
+
+##### C) Repeat until game is ended #####
