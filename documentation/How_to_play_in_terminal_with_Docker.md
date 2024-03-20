@@ -81,7 +81,7 @@ In the terminal run:
     docker run --name terminal-first -i -t terminal-game:v1
 ```
 
-This command will create a container called "terminal-first" based on the image you created previously. This container is just a snapshot of the image and the final executable product that will let you play Tic-Tac-Toe-AI.
+This command will create a container called "terminal-first" based on the image you created previously. This container is just a snapshot of the image and also the final executable product that will let you play Tic-Tac-Toe-AI.
 
 This command will also run the container in interactive mode, in order to let you give inputs to the program. 
 
