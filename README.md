@@ -1,2 +1,23 @@
-# Tic-Tac-Toe-AI
-Tic Tac Toe game with the ability to play with the computer. Built in python with pygame and heuristic algorithms such as Min-Max
+# Tic-Tac-Toe-AI #
+
+This project is the classic Tic-Tac-Toe game where your opponent is the computer itself. The program uses an algorithm called MiniMax in order to find the best move against player's possible best move
+
+## How to play Tic-Tac-Toe in the terminal ##
+
+Check the corresponding documentation:
+
+https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/BackendDocumentation/documentation/How_to_play_in_terminal.md
+
+## How to play Tic-Tac-Toe in the terminal (With Docker) ##
+
+For those who don't want to mess with python versions in their computers or want a difference approach, they can play the game using Docker. Check the corresponding documentation:
+
+https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/BackendDocumentation/documentation/How_to_play_in_terminal_with_Docker.md
+
+**Note!** Keep in mind that it might need some extra downloads, such us WSL
+
+## Learn About MiniMax algorithm ##
+
+You can learn how MiniMax works reading an article of mine:
+
+https://www.linkedin.com/pulse/minimax-algorithm-ai-game-theory-dimosthenis-theocharis-dro4f/
