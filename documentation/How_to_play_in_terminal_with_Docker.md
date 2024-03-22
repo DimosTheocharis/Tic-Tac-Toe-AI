@@ -119,3 +119,22 @@ you have to start the same container again, by running:
 ![start_container_again](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/BackendDocumentation/screenshots/how_to_run_backend/start_container_again.png)  
 
 
+## Step 7. Clear Data ##
+
+This step is optional and involves deleting the image and the container that got created for the project.
+
+##### A) Delete the container #####
+
+In a terminal run (Docker Desktop should be open)
+
+```
+    docker container rm terminal-first
+```
+
+##### B) Delete the image #####
+
+In a terminal run (Docker Desktop should be open)
+
+```
+    docker image rmi terminal-game:v1
+```

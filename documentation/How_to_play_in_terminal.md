@@ -1,5 +1,10 @@
 ## How to play Tic-Tac-Toe in the terminal ##
 
+##### Prerequisites #####
+
+- Git -> In order to clone project
+- Visual Studio Code -> (or other text editor)
+
 ### Step 1. Install Python 3 ###
 
 ##### A) Head to the official python website: https://www.python.org/ #####
