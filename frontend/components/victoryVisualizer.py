@@ -100,7 +100,8 @@ class VictoryVisualizer:
         # Class defined variables
         self.__ips = 15 # -> Increases Per Second
         self.__visualizationSteps: List[List[VictoryVisualizationLine]] = []
-        self.__completedVisualizationSteps: List[List[VictoryVisualizationLine]] =  []
+        self.__victoryRectangles: List[pygame.Rect] = [] # A list with rectangles that will be colored differently than others
+        self.__visualizedVictoryRectangles: List[pygame.Rect] = [] # A list of the self.__victoryRectangles that are already colored differently
         self.__offset: int = self.__lineThickness // 2
 
 
@@ -119,41 +120,49 @@ class VictoryVisualizer:
         match type:
             case VictoryVisualizationType.FirstRow:
                 visualizationLines = self.__visualizeRow(0)
+                self.__victoryRectangles = self.__createRectanglesForRow(0)
                 startPointX = 0
                 startPointY = 0
 
             case VictoryVisualizationType.SecondRow:
                 visualizationLines = self.__visualizeRow(1)
+                self.__victoryRectangles = self.__createRectanglesForRow(1)
                 startPointX = 0
                 startPointY = 1 * self.__cellHeight
 
             case VictoryVisualizationType.ThirdRow:
                 visualizationLines = self.__visualizeRow(2)
+                self.__victoryRectangles = self.__createRectanglesForRow(2)
                 startPointX = 0
                 startPointY = 2 * self.__cellHeight
 
             case VictoryVisualizationType.FirstColumn:
                 visualizationLines = self.__visualizeColumn(0)
+                self.__victoryRectangles = self.__createRectanglesForColumn(0)
                 startPointX = 0
                 startPointY = 0
 
             case VictoryVisualizationType.SecondColumn:
                 visualizationLines = self.__visualizeColumn(1)
+                self.__victoryRectangles = self.__createRectanglesForColumn(1)
                 startPointX = 1 * self.__cellWidth
                 startPointY = 0
 
             case VictoryVisualizationType.ThirdColumn:
                 visualizationLines = self.__visualizeColumn(2)
+                self.__victoryRectangles = self.__createRectanglesForColumn(2)
                 startPointX = 2 * self.__cellWidth
                 startPointY = 0
 
             case VictoryVisualizationType.PrimaryDiagonal:
                 visualizationLines = self.__visualizePrimaryDiagonal()
+                self.__victoryRectangles = self.__createRectanglesForPrimaryDiagonal()
                 startPointX = 0
                 startPointY = 0
 
             case VictoryVisualizationType.SecondaryDiagonal:
                 visualizationLines = self.__visualizeSecondaryDiagonal()
+                self.__victoryRectangles = self.__createRectanglesForSecondaryDiagonal()
                 startPointX = 0
                 startPointY = self.__dimension * self.__cellHeight
             
@@ -165,9 +174,9 @@ class VictoryVisualizer:
         thread.start()
 
     
-    def display(self, window: Surface, lineColor: Tuple[int, int, int]) -> None:
+    def displayLines(self, window: Surface, lineColor: Tuple[int, int, int]) -> None:
         '''
-            Displays the parts of the visualization in the screen.
+            Displays the parts of the lines visualization in the screen.
 
             Parameters:
                 lineColor (Tuple[int, int, int]) -> The color of the lines that will be visualized
@@ -175,6 +184,17 @@ class VictoryVisualizer:
         for step in self.__visualizationSteps:
             for line in step:
                 line.display(window, lineColor)
+
+
+    def displayCells(self, window: Surface, cellColor: Tuple[int, int, int]):
+        '''
+            Displays the parts of the cells visualization in the screen.
+
+            Parameters:
+                cellColor (Tuple[int, int, int]) -> The color of the cells that will be visualized
+        '''
+        for rectangle in self.__visualizedVictoryRectangles:
+            pygame.draw.rect(window, cellColor, rectangle)
 
 
     def __visualizeRow(self, row: int) -> List[VictoryVisualizationLine]:
@@ -254,7 +274,7 @@ class VictoryVisualizer:
 
         for k in range(self.__dimension):
             leftLine: VictoryVisualizationLine = VictoryVisualizationLine(
-                startX = startPointX,
+                startX = startPointX + (self.__offset if column == 0 else 0),
                 startY = k * self.__cellHeight,
                 endX = startPointX,
                 endY = (k + 1) * self.__cellHeight,
@@ -461,6 +481,57 @@ class VictoryVisualizer:
             # Odd number of lines, the line at the middle was not added inside the list
             self.__visualizationSteps.append([lines[x]])
 
+
+    def __createRectanglesForRow(self, row: int) -> list[pygame.Rect]:
+        '''
+            Creates and returns a list of pygame rectangles which correspond to the cells of the given {row}
+        '''
+        if (row < 0 or row >= self.__dimension):
+            return []
+        
+        result: list[pygame.Rect] = []
+        for i in range(self.__dimension):
+            result.append(pygame.Rect(i * self.__cellWidth, row * self.__cellHeight, self.__cellWidth, self.__cellHeight))
+
+        return result
+    
+    
+    def __createRectanglesForColumn(self, column: int) -> list[pygame.Rect]:
+        '''
+            Creates and returns a list of pygame rectangles which correspond to the cells of the given {column}
+        '''
+        if (column < 0 or column >= self.__dimension):
+            return []
+        
+        result: list[pygame.Rect] = []
+        for i in range(self.__dimension):
+            result.append(pygame.Rect(column * self.__cellWidth, i * self.__cellHeight, self.__cellWidth, self.__cellHeight))
+
+        return result
+    
+    
+    def __createRectanglesForPrimaryDiagonal(self) -> list[pygame.Rect]:
+        '''
+            Creates and returns a list of pygame rectangles which correspond to the cells of the primary diagonal
+        '''
+        result: list[pygame.Rect] = []
+        for i in range(self.__dimension):
+            result.append(pygame.Rect(i * self.__cellWidth, i * self.__cellHeight, self.__cellWidth, self.__cellHeight))
+
+        return result
+    
+    
+    def __createRectanglesForSecondaryDiagonal(self) -> list[pygame.Rect]:
+        '''
+            Creates and returns a list of pygame rectangles which correspond to the cells of the secondary diagonal
+        '''
+        result: list[pygame.Rect] = []
+        for i in range(self.__dimension):
+            result.append(pygame.Rect(i * self.__cellWidth, (self.__dimension - i - 1) * self.__cellHeight, self.__cellWidth, self.__cellHeight))
+
+        return result
+    
+
     def __execute(self, totalDuration: int):
         '''
             The main logic of the visualization. Keeps visualization going forward in every step.
@@ -477,6 +548,10 @@ class VictoryVisualizer:
                 for line in step:
                     line.expand()
                 time.sleep(sleepTime)
+
+        for rectangle in self.__victoryRectangles:
+            self.__visualizedVictoryRectangles.append(rectangle)
+            time.sleep(0.2)
 
 
 

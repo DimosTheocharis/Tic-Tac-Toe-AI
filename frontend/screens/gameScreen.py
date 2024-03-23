@@ -40,8 +40,8 @@ class GameScreen(GeneralScreen):
         self.__oddCellColor = Colors["deepBlue"]
         self.__evenCellColor = Colors["petrol"]
 
-        self.__lostCellBackgroundColor = Colors["pink"]
-        self.__lostCellBorderColor = Colors["darkPurple"]
+        self.__victoryCellBackgroundColor = Colors["pink"]
+        self.__victoryCellBorderColor = Colors["darkPurple"]
     
 
     def display(self, window: Surface) -> None:
@@ -56,6 +56,8 @@ class GameScreen(GeneralScreen):
         '''
         self.__drawCells(window)
 
+        self.__visualizer.displayCells(window, self.__victoryCellBackgroundColor)
+
         self.__drawGridBorder(window)
 
         self.__drawHorizontalLines(window)
@@ -64,31 +66,7 @@ class GameScreen(GeneralScreen):
 
         self.__drawSymbols(window)
 
-        self.__visualizer.display(window, self.__lostCellBorderColor)
-
-        # pygame.draw.rect(window, (138, 43, 226), (0, 0, self.__cellWidth, self.__cellHeight))
-
-        # offset: int = self.__lineThickness // 2
-
-        # c = (75, 0, 130)
-
-        # pygame.draw.line(window, c, (0, offset), (self.__cellWidth, offset), self.__lineThickness)
-        # pygame.draw.line(window, c, (offset, 0), (offset, self.__cellHeight), self.__lineThickness)
-
-        # pygame.draw.line(window, c, (0, 1 * self.__cellHeight), (self.__cellWidth, 1 * self.__cellHeight), self.__lineThickness)
-        # pygame.draw.line(window, c, (1 * self.__cellWidth, 0), (1 * self.__cellWidth, self.__cellHeight), self.__lineThickness)
-
-        # pygame.draw.line(window, c, (self.__cellWidth, 1 * self.__cellHeight), (2 * self.__cellWidth, 1 * self.__cellHeight), self.__lineThickness)
-        # pygame.draw.line(window, c, (1 * self.__cellWidth, self.__cellHeight), (1 * self.__cellWidth, 2 * self.__cellHeight), self.__lineThickness)
-
-        # pygame.draw.line(window, c, (self.__cellWidth - offset, 2 * self.__cellHeight), (2 * self.__cellWidth - offset, 2 * self.__cellHeight), self.__lineThickness)
-        # pygame.draw.line(window, c, (2 * self.__cellWidth, self.__cellHeight - offset), (2 * self.__cellWidth, 2 * self.__cellHeight - offset), self.__lineThickness)
-
-        # pygame.draw.line(window, c, (2 * self.__cellWidth, 2 * self.__cellHeight), (3 * self.__cellWidth, 2 * self.__cellHeight), self.__lineThickness)
-        # pygame.draw.line(window, c, (offset, 2 * self.__cellHeight), (offset, 2 * self.__cellHeight), self.__lineThickness)
-
-        # pygame.draw.line(window, c, (0, 1 * self.__cellHeight), (self.__cellWidth, 1 * self.__cellHeight), self.__lineThickness)
-        # pygame.draw.line(window, c, (1 * self.__cellWidth, 0), (1 * self.__cellWidth, self.__cellHeight), self.__lineThickness)
+        self.__visualizer.displayLines(window, self.__victoryCellBorderColor)
     
 
 
