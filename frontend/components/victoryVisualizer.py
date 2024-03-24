@@ -103,7 +103,9 @@ class VictoryVisualizationLine:
 
 class VictoryVisualizer:
     '''
-        This class defines the unit responsible for visualizations of victory type
+        This class defines the unit responsible for visualizations of victory type. This visualization type is performed when
+        the game is won by a player. It finds the cells that perform tic-tac-toe and progressively draws a border around them. 
+        After that, the visualizer paints with a special color these cells in sequence
     '''
     def __init__(self, cellWidth: int, cellHeight: int, lineThickness: int, dimension: int):
         # Parameters
@@ -119,6 +121,7 @@ class VictoryVisualizer:
         self.__visualizedVictoryRectangles: List[pygame.Rect] = [] # A list of the self.__victoryRectangles that are already colored differently
         self.__offset: int = self.__lineThickness // 2
         self.__victoryVisualizationLineDuration: int = 0.8
+        self.activeVisualization: bool = False # Whether or not visualizion is currently running
 
 
     def visualize(self, type: VictoryVisualizationType) -> None:
@@ -132,6 +135,8 @@ class VictoryVisualizer:
         visualizationLines: List[VictoryVisualizationLine] = []
         startPointX: int = 0
         startPointY: int = 0
+
+        self.activeVisualization = True
 
         match type:
             case VictoryVisualizationType.FirstRow:

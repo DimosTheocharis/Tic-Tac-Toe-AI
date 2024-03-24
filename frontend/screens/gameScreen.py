@@ -171,10 +171,6 @@ class GameScreen(GeneralScreen):
                         self.__thread.start()
 
 
-                if (self.__middleman.gameStatus.name == "ENDED"):
-                    self.__handleGameWinning()
-
-
     def __requestComputerMoveWithDelay(self):
         time.sleep(0.1)
         self.__informerPanelMessage = "Waiting for the computer to play..."
@@ -183,8 +179,15 @@ class GameScreen(GeneralScreen):
         self.__informerPanelMessage = self.__middleman.computerWillPlay()
         self.__thread = None
 
+        # check if game ended
+        if (self.__middleman.gameStatus.name == "ENDED" and not self.__visualizer.activeVisualization):
+            self.__handleGameWinning()
+
 
     def __handleGameWinning(self):
+        '''
+            Starts a graphic visualization for the victory of the computer. 
+        '''
         if (self.__middleman.checkIfRowWins(0)):
             self.__visualizer.visualize(VictoryVisualizationType.FirstRow)
        
