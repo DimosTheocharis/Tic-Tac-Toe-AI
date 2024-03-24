@@ -76,6 +76,21 @@ class VictoryVisualizationLine:
             case Direction.TOP:
                 return self.__endY - self.__startY
             
+    def completeVisualization(self):
+        '''
+            In some cases the visualization won't complete 100% due rounding of float numbers. This method
+            fixes this problem by completing the visualizaiton manually 
+        '''
+        match self.__direction:
+            case Direction.RIGHT:
+                self.__currentX = self.__endX
+            
+            case Direction.DOWN:
+                self.__currentY = self.__endY
+
+            case Direction.TOP:
+                self.__currentY = self.__endY
+            
     
     def getEndX(self) -> int:
         return self.__endX
@@ -103,9 +118,10 @@ class VictoryVisualizer:
         self.__victoryRectangles: List[pygame.Rect] = [] # A list with rectangles that will be colored differently than others
         self.__visualizedVictoryRectangles: List[pygame.Rect] = [] # A list of the self.__victoryRectangles that are already colored differently
         self.__offset: int = self.__lineThickness // 2
+        self.__victoryVisualizationLineDuration: int = 0.8
 
 
-    def visualize(self, type: VictoryVisualizationType, totalDuration: int) -> None:
+    def visualize(self, type: VictoryVisualizationType) -> None:
         '''
             Sets up and begins the visualization.
 
@@ -170,7 +186,8 @@ class VictoryVisualizer:
         visualizationLines = self.__sortVisualizationLinesBasedOnAbsoluteDistance(visualizationLines, startPointX, startPointY)
         self.__determineVisualizationSteps(visualizationLines)
 
-        thread: threading.Thread = threading.Thread(target = self.__execute, args=(totalDuration,))
+
+        thread: threading.Thread = threading.Thread(target = self.__execute, args=(len(self.__visualizationSteps) * self.__victoryVisualizationLineDuration,))
         thread.start()
 
     
@@ -215,7 +232,7 @@ class VictoryVisualizer:
                 endY = startPointY,
                 direction = Direction.RIGHT,
                 ips = self.__ips,
-                duration = 1,
+                duration = self.__victoryVisualizationLineDuration,
                 lineThickness = self.__lineThickness
             )
 
@@ -226,7 +243,7 @@ class VictoryVisualizer:
                 endY = startPointY + self.__cellHeight,
                 direction = Direction.RIGHT,
                 ips = self.__ips,
-                duration = 1,
+                duration = self.__victoryVisualizationLineDuration,
                 lineThickness = self.__lineThickness
             )
 
@@ -241,7 +258,7 @@ class VictoryVisualizer:
             endY = startPointY + self.__cellHeight,
             direction = Direction.DOWN,
             ips = self.__ips,
-            duration = 1,
+            duration = self.__victoryVisualizationLineDuration,
             lineThickness = self.__lineThickness
         )
 
@@ -252,7 +269,7 @@ class VictoryVisualizer:
             endY = startPointY + self.__cellHeight,
             direction = Direction.DOWN,
             ips = self.__ips,
-            duration = 1,
+            duration = self.__victoryVisualizationLineDuration,
             lineThickness = self.__lineThickness
         )
 
@@ -280,7 +297,7 @@ class VictoryVisualizer:
                 endY = (k + 1) * self.__cellHeight,
                 direction = Direction.DOWN,
                 ips = self.__ips,
-                duration = 1,
+                duration = self.__victoryVisualizationLineDuration,
                 lineThickness = self.__lineThickness
             )
 
@@ -291,7 +308,7 @@ class VictoryVisualizer:
                 endY = (k + 1) * self.__cellHeight,
                 direction = Direction.DOWN,
                 ips = self.__ips,
-                duration = 1,
+                duration = self.__victoryVisualizationLineDuration,
                 lineThickness = self.__lineThickness
             )
 
@@ -306,7 +323,7 @@ class VictoryVisualizer:
             endY = startPointY + self.__offset,
             direction = Direction.RIGHT,
             ips = self.__ips,
-            duration = 1,
+            duration = self.__victoryVisualizationLineDuration,
             lineThickness = self.__lineThickness
         )
 
@@ -317,7 +334,7 @@ class VictoryVisualizer:
             endY = self.__dimension * self.__cellHeight - self.__offset,
             direction = Direction.RIGHT,
             ips = self.__ips,
-            duration = 1,
+            duration = self.__victoryVisualizationLineDuration,
             lineThickness = self.__lineThickness
         )
 
@@ -342,7 +359,7 @@ class VictoryVisualizer:
                 endY = k * self.__cellHeight + (self.__offset if k == 0 else 0),
                 direction = Direction.RIGHT,
                 ips = self.__ips,
-                duration = 1,
+                duration = self.__victoryVisualizationLineDuration,
                 lineThickness = self.__lineThickness
             )
 
@@ -353,7 +370,7 @@ class VictoryVisualizer:
                 endY = (k + 1) * self.__cellHeight - (self.__offset if k == self.__dimension - 1 else 0),
                 direction = Direction.RIGHT,
                 ips = self.__ips,
-                duration = 1,
+                duration = self.__victoryVisualizationLineDuration,
                 lineThickness = self.__lineThickness
             )
 
@@ -364,7 +381,7 @@ class VictoryVisualizer:
                 endY = (k + 1) * self.__cellHeight,
                 direction = Direction.DOWN,
                 ips = self.__ips,
-                duration = 1,
+                duration = self.__victoryVisualizationLineDuration,
                 lineThickness = self.__lineThickness
             )
 
@@ -375,7 +392,7 @@ class VictoryVisualizer:
                 endY = (k + 1) * self.__cellHeight,
                 direction = Direction.DOWN,
                 ips = self.__ips,
-                duration = 1,
+                duration = self.__victoryVisualizationLineDuration,
                 lineThickness = self.__lineThickness
             )
                 
@@ -403,7 +420,7 @@ class VictoryVisualizer:
                 endY = m * self.__cellHeight + (self.__offset if k == self.__dimension - 1 else 0),
                 direction = Direction.RIGHT,
                 ips = self.__ips,
-                duration = 1,
+                duration = self.__victoryVisualizationLineDuration,
                 lineThickness = self.__lineThickness
             )
 
@@ -414,7 +431,7 @@ class VictoryVisualizer:
                 endY = (m + 1) * self.__cellHeight - (self.__offset if k == 0 else 0),
                 direction = Direction.RIGHT,
                 ips = self.__ips,
-                duration = 1,
+                duration = self.__victoryVisualizationLineDuration,
                 lineThickness = self.__lineThickness
             )
 
@@ -425,7 +442,7 @@ class VictoryVisualizer:
                 endY = m * self.__cellHeight - (self.__offset if k > 0 and k < self.__dimension - 1 else 0),
                 direction = Direction.TOP,
                 ips = self.__ips,
-                duration = 1,
+                duration = self.__victoryVisualizationLineDuration,
                 lineThickness = self.__lineThickness
             )
 
@@ -436,7 +453,7 @@ class VictoryVisualizer:
                 endY = m * self.__cellHeight + (self.__offset if k > 0 and k < self.__dimension - 1 else 0),
                 direction = Direction.TOP,
                 ips = self.__ips,
-                duration = 1,
+                duration = self.__victoryVisualizationLineDuration,
                 lineThickness = self.__lineThickness
             )
                 
@@ -539,15 +556,15 @@ class VictoryVisualizer:
         stepDuration: int = totalDuration / len(self.__visualizationSteps)
         sleepTime: int = 1 / self.__ips
 
-        print(totalDuration, len(self.__visualizationSteps))
-        print(self.__ips * stepDuration)
-        print(self.__ips, stepDuration, totalDuration)
-
         for step in self.__visualizationSteps:
             for x in range(math.trunc(self.__ips * stepDuration)):
                 for line in step:
                     line.expand()
                 time.sleep(sleepTime)
+
+            # complete uncompleted visualization
+            for line in step:
+                line.completeVisualization()
 
         for rectangle in self.__victoryRectangles:
             self.__visualizedVictoryRectangles.append(rectangle)

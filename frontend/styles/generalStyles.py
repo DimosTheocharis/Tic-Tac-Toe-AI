@@ -9,8 +9,8 @@ Colors: Dict[str, tuple[int, int, int]] = {
     "deepBlue": (35, 68, 93),
     "petrol": (93, 127, 153),
     "slateGrey": (86, 120, 146),
-    "darkPurple": (75, 0, 130),
-    "pink": (138, 43, 226)
+    "darkerRed": (75, 10, 10),
+    "darkRed": (100, 10, 10)
 }
 
 

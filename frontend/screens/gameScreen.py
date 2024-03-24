@@ -40,8 +40,8 @@ class GameScreen(GeneralScreen):
         self.__oddCellColor = Colors["deepBlue"]
         self.__evenCellColor = Colors["petrol"]
 
-        self.__victoryCellBackgroundColor = Colors["pink"]
-        self.__victoryCellBorderColor = Colors["darkPurple"]
+        self.__victoryCellBackgroundColor = Colors["darkRed"]
+        self.__victoryCellBorderColor = Colors["darkerRed"]
     
 
     def display(self, window: Surface) -> None:
@@ -186,25 +186,25 @@ class GameScreen(GeneralScreen):
 
     def __handleGameWinning(self):
         if (self.__middleman.checkIfRowWins(0)):
-            self.__visualizer.visualize(VictoryVisualizationType.FirstRow, 4)
+            self.__visualizer.visualize(VictoryVisualizationType.FirstRow)
        
         elif (self.__middleman.checkIfRowWins(1)):
-            self.__visualizer.visualize(VictoryVisualizationType.SecondRow, 4)
+            self.__visualizer.visualize(VictoryVisualizationType.SecondRow)
         
         elif (self.__middleman.checkIfRowWins(2)):
-            self.__visualizer.visualize(VictoryVisualizationType.ThirdRow, 4)
+            self.__visualizer.visualize(VictoryVisualizationType.ThirdRow)
         
         elif (self.__middleman.checkIfColumnWins(0)):
-            self.__visualizer.visualize(VictoryVisualizationType.FirstColumn, 4)
+            self.__visualizer.visualize(VictoryVisualizationType.FirstColumn)
         
         elif (self.__middleman.checkIfColumnWins(1)):
-            self.__visualizer.visualize(VictoryVisualizationType.SecondColumn, 4)
+            self.__visualizer.visualize(VictoryVisualizationType.SecondColumn)
         
         elif (self.__middleman.checkIfColumnWins(2)):
-            self.__visualizer.visualize(VictoryVisualizationType.ThirdColumn, 4)
+            self.__visualizer.visualize(VictoryVisualizationType.ThirdColumn)
 
         elif (self.__middleman.checkIfPrimaryDiagonalWins()):
-            self.__visualizer.visualize(VictoryVisualizationType.PrimaryDiagonal, 6)
+            self.__visualizer.visualize(VictoryVisualizationType.PrimaryDiagonal)
         
         elif (self.__middleman.checkIfSecondaryDiagonalWins()):
-            self.__visualizer.visualize(VictoryVisualizationType.SecondaryDiagonal, 6)
+            self.__visualizer.visualize(VictoryVisualizationType.SecondaryDiagonal)
