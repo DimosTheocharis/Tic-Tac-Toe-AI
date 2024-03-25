@@ -6,6 +6,8 @@ from pygame.event import Event
 
 from screens.gameScreen import GameScreen
 from styles.generalStyles import Colors
+from projectController import ProjectController
+
 
 class WindowController:
     '''
@@ -19,6 +21,7 @@ class WindowController:
         self.__currentScreen: GameScreen = GameScreen(self.__width, self.__width)
         self.__window: Surface = pygame.display.set_mode((self.__width, self.__height))
         self.__clock: Clock = pygame.time.Clock()
+        self.__projectController: ProjectController = ProjectController()
 
 
     def display(self):
@@ -30,6 +33,8 @@ class WindowController:
             for event in events:
                 if event.type == pygame.QUIT:
                     self.__running = False
+                    self.__projectController._instance.projectIsTerminated = True
+                    break
 
             self.__handleEvents(events)
 

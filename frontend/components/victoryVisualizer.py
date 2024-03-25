@@ -8,6 +8,8 @@ import math
 import pygame
 from pygame import Surface
 
+from projectController import ProjectController
+
 class VictoryVisualizationType(Enum):
     FirstRow = 1
     SecondRow = 2
@@ -113,6 +115,7 @@ class VictoryVisualizer:
         self.__cellHeight: int = cellHeight
         self.__lineThickness: int = lineThickness
         self.__dimension: int = dimension
+        self.__projectController: ProjectController = ProjectController()
 
         # Class defined variables
         self.__ips = 15 # -> Increases Per Second
@@ -562,8 +565,11 @@ class VictoryVisualizer:
         sleepTime: int = 1 / self.__ips
 
         for step in self.__visualizationSteps:
+            if (self.__projectController._instance.projectIsTerminated): break
             for x in range(math.trunc(self.__ips * stepDuration)):
+                if (self.__projectController._instance.projectIsTerminated): break
                 for line in step:
+                    if (self.__projectController._instance.projectIsTerminated): break
                     line.expand()
                 time.sleep(sleepTime)
 
