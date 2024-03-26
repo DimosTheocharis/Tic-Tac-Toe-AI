@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-class State:
+class State():
     def __init__(self, dimension: int):
         self.dimension = dimension
         self.__createGrid()
@@ -9,7 +9,7 @@ class State:
         '''
             Creates a self.dimension X self.dimension grid and fills its cells with ' '
         '''
-        self.__grid = [[' ' for j in range(self.dimension)] for i in range(self.dimension)]
+        self.__grid: list[list[str]] = [[' ' for j in range(self.dimension)] for i in range(self.dimension)]
 
 
     def assignGrid(self, grid: list[list[str]]):
@@ -91,30 +91,17 @@ class State:
         print()
 
 
-    def play(self, symbol: str, row: int, column: int) -> bool:
+    def play(self, symbol: str, row: int, column: int) -> None:
         '''
-            Implements the move of a player in given coordinates. If dimensions are out of limit or the corresponding 
-            cell is already filled, then logs a relative message and returns.
+            Implements the move of a player in given coordinates. The coordinates must be checked before entering this function!
 
             Parameters:
                 symbol (str): A character that is related to the player playing
                 row (int): The row of the grid that contains the cell where the symbol is going to be placed
                 column (int): The column of the grid that contains the cell where the symbol is going to be placed
-
-            Returns:
-                bool: True if the move executed successfully, False otherwise
         '''
-        if (row >= self.dimension or column >= self.dimension):
-            print("Coordinates out of limit.")
-            return False
-        
-        if (self.__grid[row][column] != " "):
-            print("Place already occupied.")
-            return False
         
         self.__grid[row][column] = symbol
-
-        return True
     
 
     def isVictory(self) -> bool:
@@ -122,21 +109,21 @@ class State:
             Checks if one of the 2 players has won the game
         '''
         for i in range(self.dimension):
-            if (self.__checkRow(i)):
+            if (self.checkRow(i)):
                 return True
 
         for j in range(self.dimension):
-            if (self.__checkColumn(j)):
+            if (self.checkColumn(j)):
                 return True
 
-        if (self.__checkPrimaryDiagonal()):
+        if (self.checkPrimaryDiagonal()):
             return True
 
-        if (self.__checkSecondaryDiagonal()):
+        if (self.checkSecondaryDiagonal()):
             return True
 
 
-    def __checkRow(self, row: int) -> bool: 
+    def checkRow(self, row: int) -> bool: 
         '''
             Checks if the row at index {row} wins the game (contains 3 consecutive same symbols)
 
@@ -152,7 +139,7 @@ class State:
         return match 
 
 
-    def __checkColumn(self, column: int) -> bool: 
+    def checkColumn(self, column: int) -> bool: 
         '''
             Checks if the column at index {column} wins the game (contains 3 consecutive same symbols)
 
@@ -168,7 +155,7 @@ class State:
         return match 
 
 
-    def __checkPrimaryDiagonal(self) -> bool:
+    def checkPrimaryDiagonal(self) -> bool:
         '''
             Checks if the primary diagonal wins the game (contains 3 consecutive same symbols
 
@@ -184,7 +171,7 @@ class State:
         return match
 
     
-    def __checkSecondaryDiagonal(self) -> bool:
+    def checkSecondaryDiagonal(self) -> bool:
         '''
             Checks if the secondary diagonal wins the game (contains 3 consecutive same symbols).
             
