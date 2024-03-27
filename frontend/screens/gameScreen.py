@@ -13,21 +13,20 @@ from components.victoryVisualizer import VictoryVisualizer, VictoryVisualization
 
 class GameScreen(GeneralScreen):
     def __init__(self, width: int, height: int):
-        self.__width: int = width
-        self.__height: int = height    
-        self.__dimension: int = 3
-        self.__cellWidth: int = self.__width // self.__dimension
-        self.__cellHeight: int = self.__height // self.__dimension
+        super().__init__(width, height)
+
+        self.__cellWidth: int = self._width // self._dimension
+        self.__cellHeight: int = self._height // self._dimension
         self.__informerPanelMessage: str = "Your symbol is X. Play wherether you want."
 
         self.__middleman: Middleman = Middleman() # The interface between frontend and backend
         self.__thread: threading.Thread | None = None
 
-        self.__defineStyleVariables()
+        self._defineStyleVariables()
 
-        self.__visualizer: VictoryVisualizer = VictoryVisualizer(self.__cellWidth, self.__cellHeight, self.__lineThickness, self.__dimension)
+        self.__visualizer: VictoryVisualizer = VictoryVisualizer(self.__cellWidth, self.__cellHeight, self.__lineThickness, self._dimension)
 
-    def __defineStyleVariables(self):
+    def _defineStyleVariables(self):
         self.__lineThickness = 15
 
         self.__symbolFont = Fonts["verdana_big"]
@@ -47,7 +46,6 @@ class GameScreen(GeneralScreen):
     def display(self, window: Surface) -> None:
         self.__drawGrid(window)
         self.__drawInformerPanel(window)
-
 
 
     def __drawGrid(self, window: Surface):
@@ -74,9 +72,9 @@ class GameScreen(GeneralScreen):
         '''
             Draws the cells of the tic-tac-toe grid in alternate colors
         '''
-        for row in range(self.__dimension):
-            for column in range(self.__dimension):
-                index: int = row * self.__dimension + column + 1
+        for row in range(self._dimension):
+            for column in range(self._dimension):
+                index: int = row * self._dimension + column + 1
                 color: Tuple[int, int, int] = self.__oddCellColor if index % 2 == 1 else self.__evenCellColor
                 
                 positionX: int = column * self.__cellWidth
@@ -92,28 +90,28 @@ class GameScreen(GeneralScreen):
         '''
         offset: int = self.__lineThickness // 2
 
-        pygame.draw.line(window, self.__lineColor, (0, 0 + offset), (self.__width, 0 + offset), self.__lineThickness)
-        pygame.draw.line(window, self.__lineColor, (self.__width - offset, 0), (self.__width - offset, self.__height), self.__lineThickness)
-        pygame.draw.line(window, self.__lineColor, (self.__width, self.__height - offset), (0, self.__height - offset), self.__lineThickness)
-        pygame.draw.line(window, self.__lineColor, (0 + offset, self.__height), (0 + offset, 0), self.__lineThickness)
+        pygame.draw.line(window, self.__lineColor, (0, 0 + offset), (self._width, 0 + offset), self.__lineThickness)
+        pygame.draw.line(window, self.__lineColor, (self._width - offset, 0), (self._width - offset, self._height), self.__lineThickness)
+        pygame.draw.line(window, self.__lineColor, (self._width, self._height - offset), (0, self._height - offset), self.__lineThickness)
+        pygame.draw.line(window, self.__lineColor, (0 + offset, self._height), (0 + offset, 0), self.__lineThickness)
 
 
     def __drawHorizontalLines(self, window: Surface) -> None:
         '''
             Draws the horizontal lines of the tic-tac-toe grid
         '''
-        for i in range(self.__dimension - 1):
+        for i in range(self._dimension - 1):
             lineHeight: int = (i + 1) * self.__cellHeight
-            pygame.draw.line(window, self.__lineColor, (0, lineHeight), (self.__width, lineHeight), self.__lineThickness)
+            pygame.draw.line(window, self.__lineColor, (0, lineHeight), (self._width, lineHeight), self.__lineThickness)
 
 
     def __drawVerticalLines(self, window: Surface) -> None:
         '''
             Draws the vertical lines of the tic-tac-toe grid
         '''
-        for i in range(self.__dimension - 1):
+        for i in range(self._dimension - 1):
             lineWidth: int = (i + 1) * self.__cellWidth
-            pygame.draw.line(window, self.__lineColor, (lineWidth, 0), (lineWidth, self.__height), self.__lineThickness)
+            pygame.draw.line(window, self.__lineColor, (lineWidth, 0), (lineWidth, self._height), self.__lineThickness)
 
 
     
@@ -121,8 +119,8 @@ class GameScreen(GeneralScreen):
         '''
             Draws the symbols of the current tic-tac-game in the corresponding positions
         '''
-        for row in range(self.__dimension):
-            for column in range(self.__dimension):
+        for row in range(self._dimension):
+            for column in range(self._dimension):
                 symbol: str = self.__middleman.getCellSymbol(row, column)
                 symbolSurface: Surface = self.__symbolFont.render(symbol, False, self.__symbolForegroundColor)
 
@@ -137,7 +135,7 @@ class GameScreen(GeneralScreen):
             This method is responsible for drawing a small window under the grid that informs the player about 
             the state of the game.
         '''
-        panelRect: Rect = pygame.draw.rect(window, self.__panelBackgroundColor, (0, self.__height, self.__width, 100))
+        panelRect: Rect = pygame.draw.rect(window, self.__panelBackgroundColor, (0, self._height, self._width, 100))
 
         messageSurface: Surface = self.__panelMessageFont.render(self.__informerPanelMessage, False, self.__panelForegroundColor)
 

@@ -5,6 +5,7 @@ from pygame.time import Clock
 from pygame.event import Event
 
 from screens.gameScreen import GameScreen
+from screens.menuScreen import MenuScreen
 from styles.generalStyles import Colors
 from projectController import ProjectController
 
@@ -19,6 +20,7 @@ class WindowController:
         self.__fps = 30
         self.__running = True
         self.__currentScreen: GameScreen = GameScreen(self.__width, self.__width)
+        self.__currentScreen: MenuScreen = MenuScreen(self.__width, self.__height)
         self.__window: Surface = pygame.display.set_mode((self.__width, self.__height))
         self.__clock: Clock = pygame.time.Clock()
         self.__projectController: ProjectController = ProjectController()
