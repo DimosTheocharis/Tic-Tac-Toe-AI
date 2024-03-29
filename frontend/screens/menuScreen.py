@@ -6,6 +6,7 @@ from pygame.event import Event
 
 from frontend.styles.generalStyles import Colors, Fonts
 from screens.generalScreen import GeneralScreen
+from components.button import Button
 
 class MenuScreen(GeneralScreen):
     def __init__(self, width: int, height: int):
@@ -13,6 +14,8 @@ class MenuScreen(GeneralScreen):
 
         self.__cellWidth: int = self._width // self._dimension
         self.__cellHeight: int = self._height // self._dimension
+
+        self.__createButtons()
 
 
         self._defineStyleVariables()
@@ -41,6 +44,8 @@ class MenuScreen(GeneralScreen):
         self.__drawVerticalLines(window)
 
         self.__drawTitle(window)
+
+        self.__startGameButton.display(window)
 
     
     def __drawCells(self, window: Surface) -> None:
@@ -95,6 +100,21 @@ class MenuScreen(GeneralScreen):
         window.blit(toeSurface, self._centerSurfaceInRect(toeSurface, toeRect))
     
     
+    def __createButtons(self) -> None:
+        '''
+            Creates the buttons that exist in the screen of the menu
+        '''
+        # Button that starts the game
+        startGameX: int = self._width // 2 - 50
+        startGameY: int = self._height // 2 - 30
+
+        self.__startGameButton: Button = Button(startGameX, startGameY, 100, 60, "Start Game", 10)
+
+        self.__startGameButton.style(Colors["orangeIdle"], Colors["deepNavyBlue"], Fonts["verdana_tiny_bold"])
+
+        
+
+
     def handleEvents(self, events: List[Event]):
         '''
             Handles the events for the game screen. Finds the position of the mouse and 
