@@ -19,7 +19,6 @@ class WindowController:
         self.__height = 700
         self.__fps = 30
         self.__running = True
-        self.__currentScreen: GameScreen = GameScreen(self.__width, self.__width)
         self.__currentScreen: MenuScreen = MenuScreen(self.__width, self.__height)
         self.__window: Surface = pygame.display.set_mode((self.__width, self.__height))
         self.__clock: Clock = pygame.time.Clock()
@@ -50,7 +49,18 @@ class WindowController:
 
 
     def __handleEvents(self, events: List[Event]) -> None:
-        self.__currentScreen.handleEvents(events)
+        self.__currentScreen.handleEvents(events, self.__handleScreenNavigating)
+
+
+    def __handleScreenNavigating(self, newScreen: str):
+        '''
+            Changes the screen that is currently being displayed based on user's navigating inside the app
+        '''
+        match newScreen:
+            case "gameScreen":
+                self.__currentScreen = GameScreen(self.__width, self.__width)
+            case "menuScreen":
+                self.__currentScreen = MenuScreen(self.__width, self.__height)
 
 
 

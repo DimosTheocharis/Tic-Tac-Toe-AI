@@ -6,6 +6,7 @@ import pygame
 from pygame import Rect, Surface
 from pygame.event import Event
 
+from frontend.components.button import Button
 from screens.generalScreen import GeneralScreen
 from styles.generalStyles import Colors, Fonts
 from middleware.middleman import Middleman
@@ -23,8 +24,10 @@ class GameScreen(GeneralScreen):
         self.__thread: threading.Thread | None = None
 
         self._defineStyleVariables()
+        self.__createButtons()
 
         self.__visualizer: VictoryVisualizer = VictoryVisualizer(self.__cellWidth, self.__cellHeight, self.__lineThickness, self._dimension)
+
 
     def _defineStyleVariables(self):
         self.__lineThickness = 15
@@ -38,6 +41,7 @@ class GameScreen(GeneralScreen):
         self.__panelForegroundColor = Colors["black"]
         self.__oddCellColor = Colors["deepBlue"]
         self.__evenCellColor = Colors["petrol"]
+        self.__windowBackgroundColor = Colors["slateGrey"]
 
         self.__victoryCellBackgroundColor = Colors["darkRed"]
         self.__victoryCellBorderColor = Colors["darkerRed"]
@@ -46,12 +50,15 @@ class GameScreen(GeneralScreen):
     def display(self, window: Surface) -> None:
         self.__drawGrid(window)
         self.__drawInformerPanel(window)
+        self.__backToMenuButton.display(window)
 
 
     def __drawGrid(self, window: Surface):
         '''
             This method is responsible for drawing the Tic-Tac-Toe grid
         '''
+        window.fill(self.__windowBackgroundColor)
+
         self.__drawCells(window)
 
         self.__visualizer.displayCells(window, self.__victoryCellBackgroundColor)
@@ -135,7 +142,7 @@ class GameScreen(GeneralScreen):
             This method is responsible for drawing a small window under the grid that informs the player about 
             the state of the game.
         '''
-        panelRect: Rect = pygame.draw.rect(window, self.__panelBackgroundColor, (0, self._height, self._width, 100))
+        panelRect: Rect = pygame.draw.rect(window, self.__panelBackgroundColor, (70, self._height, self._width - 70, 100))
 
         messageSurface: Surface = self.__panelMessageFont.render(self.__informerPanelMessage, False, self.__panelForegroundColor)
 
@@ -145,7 +152,7 @@ class GameScreen(GeneralScreen):
 
 
 
-    def handleEvents(self, events: List[Event]):
+    def handleEvents(self, events: List[Event], callBackForNavigation = None):
         '''
             Handles the events for the game screen. Finds the position of the mouse and 
             converts the x,y coordinates from pixels to grid-coordinates.
@@ -153,6 +160,7 @@ class GameScreen(GeneralScreen):
         '''
         for event in events:
             if (event.type == pygame.MOUSEBUTTONDOWN):
+                if (not pygame.mouse.get_pressed()[0]): continue
                 x, y = pygame.mouse.get_pos()
 
                 row: int = y // self.__cellHeight
@@ -167,6 +175,8 @@ class GameScreen(GeneralScreen):
                     if (self.__thread == None):
                         self.__thread = threading.Thread(target=self.__requestComputerMoveWithDelay)
                         self.__thread.start()
+        
+        self.__backToMenuButton.handleEvents(events, callBackForNavigation)
 
 
     def __requestComputerMoveWithDelay(self):
@@ -209,3 +219,16 @@ class GameScreen(GeneralScreen):
         
         elif (self.__middleman.checkIfSecondaryDiagonalWins()):
             self.__visualizer.visualize(VictoryVisualizationType.SecondaryDiagonal)
+
+
+    def __createButtons(self) -> None:
+        '''
+            Creates the buttons that exist in the screen of the game
+        '''
+        # Button that goes back to the menu
+        backButtonX: int = 10
+        backButtonY: int = self._height + 50 - 15
+
+        self.__backToMenuButton: Button = Button(backButtonX, backButtonY, 50, 30, "Back", "menuScreen", 10)
+
+        self.__backToMenuButton.style(Colors["orangeIdle"], Colors["orangeActive"], Colors["deepNavyBlue"], Fonts["verdana_tiny_bold"])

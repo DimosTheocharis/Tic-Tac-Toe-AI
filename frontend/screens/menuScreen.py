@@ -105,19 +105,19 @@ class MenuScreen(GeneralScreen):
             Creates the buttons that exist in the screen of the menu
         '''
         # Button that starts the game
-        startGameX: int = self._width // 2 - 50
-        startGameY: int = self._height // 2 - 30
+        startGameButtonX: int = self._width // 2 - 50
+        startGameButtonY: int = self._height // 2 - 30
 
-        self.__startGameButton: Button = Button(startGameX, startGameY, 100, 60, "Start Game", 10)
+        self.__startGameButton: Button = Button(startGameButtonX, startGameButtonY, 100, 60, "Start Game", "gameScreen", 10)
 
-        self.__startGameButton.style(Colors["orangeIdle"], Colors["deepNavyBlue"], Fonts["verdana_tiny_bold"])
+        self.__startGameButton.style(Colors["orangeIdle"], Colors["orangeActive"], Colors["deepNavyBlue"], Fonts["verdana_tiny_bold"])
 
         
 
 
-    def handleEvents(self, events: List[Event]):
+    def handleEvents(self, events: List[Event], callBackForNavigation):
         '''
-            Handles the events for the game screen. Finds the position of the mouse and 
-            converts the x,y coordinates from pixels to grid-coordinates.
+            Handles the events for the menu screen.
         '''
-        pass
+        self.__startGameButton.handleEvents(events, callBackForNavigation)
+        
