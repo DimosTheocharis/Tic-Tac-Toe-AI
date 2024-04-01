@@ -4,6 +4,7 @@ import pygame
 from pygame import Surface, Rect
 from pygame.event import Event
 
+from frontend.components.screen import Screen
 from frontend.styles.generalStyles import Colors, Fonts
 from screens.generalScreen import GeneralScreen
 from components.button import Button
@@ -108,7 +109,7 @@ class MenuScreen(GeneralScreen):
         startGameButtonX: int = self._width // 2 - 50
         startGameButtonY: int = self._height // 2 - 30
 
-        self.__startGameButton: Button = Button(startGameButtonX, startGameButtonY, 100, 60, "Start Game", "gameScreen", 10)
+        self.__startGameButton: Button = Button(startGameButtonX, startGameButtonY, 100, 60, "Start Game", Screen.GameScreen, 10)
 
         self.__startGameButton.style(Colors["orangeIdle"], Colors["orangeActive"], Colors["deepNavyBlue"], Fonts["verdana_tiny_bold"])
 

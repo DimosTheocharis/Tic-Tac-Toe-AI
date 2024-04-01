@@ -1,9 +1,11 @@
 from typing import List
+
 import pygame
 from pygame import Surface
 from pygame.time import Clock
 from pygame.event import Event
 
+from frontend.components.screen import Screen
 from screens.gameScreen import GameScreen
 from screens.menuScreen import MenuScreen
 from styles.generalStyles import Colors
@@ -52,14 +54,14 @@ class WindowController:
         self.__currentScreen.handleEvents(events, self.__handleScreenNavigating)
 
 
-    def __handleScreenNavigating(self, newScreen: str):
+    def __handleScreenNavigating(self, newScreen: Screen):
         '''
             Changes the screen that is currently being displayed based on user's navigating inside the app
         '''
         match newScreen:
-            case "gameScreen":
+            case Screen.GameScreen:
                 self.__currentScreen = GameScreen(self.__width, self.__width)
-            case "menuScreen":
+            case Screen.MenuScreen:
                 self.__currentScreen = MenuScreen(self.__width, self.__height)
 
 

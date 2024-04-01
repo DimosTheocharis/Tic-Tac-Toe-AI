@@ -7,6 +7,7 @@ from pygame import Rect, Surface
 from pygame.event import Event
 
 from frontend.components.button import Button
+from frontend.components.screen import Screen
 from screens.generalScreen import GeneralScreen
 from styles.generalStyles import Colors, Fonts
 from middleware.middleman import Middleman
@@ -229,6 +230,6 @@ class GameScreen(GeneralScreen):
         backButtonX: int = 10
         backButtonY: int = self._height + 50 - 15
 
-        self.__backToMenuButton: Button = Button(backButtonX, backButtonY, 50, 30, "Back", "menuScreen", 10)
+        self.__backToMenuButton: Button = Button(backButtonX, backButtonY, 50, 30, "Back", Screen.MenuScreen, 10)
 
         self.__backToMenuButton.style(Colors["orangeIdle"], Colors["orangeActive"], Colors["deepNavyBlue"], Fonts["verdana_tiny_bold"])
