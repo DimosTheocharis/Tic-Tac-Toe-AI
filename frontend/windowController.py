@@ -1,10 +1,13 @@
 from typing import List
+
 import pygame
 from pygame import Surface
 from pygame.time import Clock
 from pygame.event import Event
 
+from frontend.components.screen import Screen
 from screens.gameScreen import GameScreen
+from screens.menuScreen import MenuScreen
 from styles.generalStyles import Colors
 from projectController import ProjectController
 
@@ -18,7 +21,7 @@ class WindowController:
         self.__height = 700
         self.__fps = 30
         self.__running = True
-        self.__currentScreen: GameScreen = GameScreen(self.__width, self.__width)
+        self.__currentScreen: MenuScreen = MenuScreen(self.__width, self.__height)
         self.__window: Surface = pygame.display.set_mode((self.__width, self.__height))
         self.__clock: Clock = pygame.time.Clock()
         self.__projectController: ProjectController = ProjectController()
@@ -48,7 +51,18 @@ class WindowController:
 
 
     def __handleEvents(self, events: List[Event]) -> None:
-        self.__currentScreen.handleEvents(events)
+        self.__currentScreen.handleEvents(events, self.__handleScreenNavigating)
+
+
+    def __handleScreenNavigating(self, newScreen: Screen):
+        '''
+            Changes the screen that is currently being displayed based on user's navigating inside the app
+        '''
+        match newScreen:
+            case Screen.GameScreen:
+                self.__currentScreen = GameScreen(self.__width, self.__width)
+            case Screen.MenuScreen:
+                self.__currentScreen = MenuScreen(self.__width, self.__height)
 
 
 
