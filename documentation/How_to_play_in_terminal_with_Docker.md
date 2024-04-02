@@ -32,13 +32,13 @@ For example, in Windows the Windows Subsystem for Linux (WSL) is required in ord
 
 ##### A) Copy the project url #####
 
-![copy_clone_url](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_backend/copy_clone_url.png)  
+![copy_clone_url](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_clone_project/copy_clone_url.png)  
 
 ##### B) Open a text editor and clone the project #####
 
 Here i opened Visual Studio Code in a new window (File > New Window).
 
-![clone_project](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_backend/clone_project.png)  
+![clone_project](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_clone_project/clone_project.png)  
 
 
 ### Step 3. Open Docker Desktop ###

@@ -11,11 +11,11 @@
 
 ##### B) Find the latest version of python 3 #####
 
-![open_latest_python_version](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_backend/open_latest_python_version.png)  
+![open_latest_python_version](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_install_python/open_latest_python_version.png)  
 
 ##### C) Head down to files and select the recommended #####
 
-![select_python_version](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_backend/select_python_version.png)  
+![select_python_version](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_install_python/select_python_version.png)  
 
 ##### D) Run the .exe that got downloaded and follow the steps of the download wizard. #####
 
@@ -29,19 +29,19 @@ Open a terminal and run
 
 in order to see if python is installed in your computer and which version is installed.
 
-![successful_python_download](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_backend/successful_python_download.png)  
+![successful_python_download](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_install_python/successful_python_download.png)  
 
 ### Step 2. Clone Project ###
 
 ##### A) Copy the project url #####
 
-![copy_clone_url](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_backend/copy_clone_url.png)  
+![copy_clone_url](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_clone_project/copy_clone_url.png)  
 
 ##### B) Open a text editor and clone the project #####
 
 Here i opened Visual Studio Code in a new window (File > New Window).
 
-![clone_project](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_backend/clone_project.png)  
+![clone_project](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_clone_project/clone_project.png)  
 
 ### Step 3. Run main.py
 
