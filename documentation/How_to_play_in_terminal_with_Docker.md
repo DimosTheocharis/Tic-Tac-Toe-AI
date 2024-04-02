@@ -51,7 +51,7 @@ Here i opened Visual Studio Code in a new window (File > New Window).
 
 ##### A) Open the cloned project #####
 
-Open the project with Visual Studio Code: File > Open Folder. You should head to the folder "Tic-Tac-Toe-AI" where `dockerfile` file is located. You may run 
+Open the project with Visual Studio Code: File > Open Folder. You should head to the folder "Tic-Tac-Toe-AI" where `backend_dockerfile` file is located. You may run 
 
 ```
     ls
@@ -71,7 +71,9 @@ Open a terminal and run:
 
 This command will run the code in the `backend_dockerfile` file. It will create an image of the project (called "terminal-game:v1"), ie a shared package containing the code of the project and the instructions to run it.
 
-**Note!!** Don't forget the '.' in the end of the command. It tells Docker to look for the `dockerfile` in the same directory you are now.
+**Note** Don't forget the '.' in the end of the command. It tells Docker to look for the `dockerfile` in the same directory you are now.
+
+**Note:** Keep in mind that this might take a time.
 
 ##### B) Create a container based on the image #####
 
