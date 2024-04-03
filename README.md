@@ -6,15 +6,21 @@ This project is the classic Tic-Tac-Toe game where your opponent is the computer
 
 Check the corresponding documentation:
 
-https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/BackendDocumentation/documentation/How_to_play_in_terminal.md
+https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/documentation/How_to_play_in_terminal.md
 
 ## How to play Tic-Tac-Toe in the terminal (With Docker) ##
 
 For those who don't want to mess with python versions in their computers or want a difference approach, they can play the game using Docker. Check the corresponding documentation:
 
-https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/BackendDocumentation/documentation/How_to_play_in_terminal_with_Docker.md
+https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/documentation/How_to_play_in_terminal_with_Docker.md
 
 **Note!** Keep in mind that it might need some extra downloads, such us WSL
+
+## How to play Tic-Tac-Toe in the pygame gui ##
+
+Check the corresponding documentation:
+
+https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/documentation/How_to_play_in_gui.md
 
 ## Learn About MiniMax algorithm ##
 

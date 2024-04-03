@@ -47,7 +47,7 @@ Here i opened Visual Studio Code in a new window (File > New Window).
 
 ##### A) Open the cloned project #####
 
-You should head to the folder "Tic-Tac-Toe-AI" where `backend` folder is located. You may run 
+You should head to the folder "Tic-Tac-Toe-AI" where `frontend` folder is located. You may run 
 
 ```
     ls
@@ -55,26 +55,37 @@ You should head to the folder "Tic-Tac-Toe-AI" where `backend` folder is located
 
 in order to assure that you are in the correct folder.
 
-![head_to_backend_folder](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_backend/head_to_backend_folder.png)  
+![head_to_frontend_folder](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_frontend/head_to_frontend_folder.png)  
 
 ##### B) Open the terminal and run: #####
 
 ```
-    python ./backend/main.py
+    python ./frontend/main.py
 ```
 
 ## Step 4. Play the game ##
 
-##### A) Decide your move #####
+##### A) Start the game #####
 
-For example here i placed my symbol 'X' in the third column (column = 2) of the first row (row = 0).
+Just click the "Start Button" in the menu screen in order to start the game.
 
-![make_your_move](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_backend/make_your_move.png)  
+![start_game](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_frontend/start_game.png)  
 
-##### B) Wait for the algorithm to play #####
+##### B) Decide your move #####
 
-Here the algorithm responded with a move at (row, column) = (1, 1), right in the middle of the grid.
+For example here i placed my symbol 'X' in the second column (column = 1) of the second row (row = 1).
 
-![algorithm_makes_its_move](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_backend/algorithm_makes_its_move.png)  
+![make_your_move](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_frontend/make_your_move.png)  
+
+##### C) Wait for the algorithm to play #####
+
+Here the algorithm responded with a move at (row, column) = (0, 0), in the top-left corner of the grid.
+
+![algorithm_makes_its_move](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_frontend/algorithm_makes_its_move.png)  
 
 ##### C) Repeat until game is ended #####
+
+![game_ends](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_frontend/game_ends.png)  
+
+You can anytime click "Back" in order to stop game and navigate to the menu.
+
