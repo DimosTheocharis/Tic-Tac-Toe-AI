@@ -11,11 +11,11 @@
 
 ##### B) Find the latest version of python 3 #####
 
-![open_latest_python_version](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/FrontendDocumentation/screenshots/how_to_install_python/open_latest_python_version.png)  
+![open_latest_python_version](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_install_python/open_latest_python_version.png)  
 
 ##### C) Head down to files and select the recommended #####
 
-![select_python_version](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/FrontendDocumentation/screenshots/how_to_install_python/select_python_version.png)  
+![select_python_version](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_install_python/select_python_version.png)  
 
 ##### D) Run the .exe that got downloaded and follow the steps of the download wizard. #####
 
@@ -29,21 +29,21 @@ Open a terminal and run
 
 in order to see if python is installed in your computer and which version is installed.
 
-![successful_python_download](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/FrontendDocumentation/screenshots/how_to_install_python/successful_python_download.png)  
+![successful_python_download](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_install_python/successful_python_download.png)  
 
 ### Step 2. Clone Project ###
 
 ##### A) Copy the project url #####
 
-![copy_clone_url](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/FrontendDocumentation/screenshots/how_to_clone_project/copy_clone_url.png)  
+![copy_clone_url](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_clone_project/copy_clone_url.png)  
 
 ##### B) Open a text editor and clone the project #####
 
 Here i opened Visual Studio Code in a new window (File > New Window).
 
-![clone_project](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/FrontendDocumentation/screenshots/how_to_clone_project/clone_project.png)  
+![clone_project](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_clone_project/clone_project.png)  
 
-### Step 3. Run FrontendDocumentation.py
+### Step 3. Run main.py
 
 ##### A) Open the cloned project #####
 
@@ -55,7 +55,7 @@ You should head to the folder "Tic-Tac-Toe-AI" where `frontend` folder is locate
 
 in order to assure that you are in the correct folder.
 
-![head_to_frontend_folder](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/FrontendDocumentation/screenshots/how_to_run_frontend/head_to_frontend_folder.png)  
+![head_to_frontend_folder](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_frontend/head_to_frontend_folder.png)  
 
 ##### B) Open the terminal and run: #####
 
@@ -65,16 +65,27 @@ in order to assure that you are in the correct folder.
 
 ## Step 4. Play the game ##
 
-##### A) Decide your move #####
+##### A) Start the game #####
 
-For example here i placed my symbol 'X' in the third column (column = 2) of the first row (row = 0).
+Just click the "Start Button" in the menu screen in order to start the game.
 
-![make_your_move](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/FrontendDocumentation/screenshots/how_to_run_backend/make_your_move.png)  
+![start_game](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_frontend/start_game.png)  
 
-##### B) Wait for the algorithm to play #####
+##### B) Decide your move #####
 
-Here the algorithm responded with a move at (row, column) = (1, 1), right in the middle of the grid.
+For example here i placed my symbol 'X' in the second column (column = 1) of the second row (row = 1).
 
-![algorithm_makes_its_move](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/FrontendDocumentation/screenshots/how_to_run_backend/algorithm_makes_its_move.png)  
+![make_your_move](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_frontend/make_your_move.png)  
+
+##### C) Wait for the algorithm to play #####
+
+Here the algorithm responded with a move at (row, column) = (0, 0), in the top-left corner of the grid.
+
+![algorithm_makes_its_move](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_frontend/algorithm_makes_its_move.png)  
 
 ##### C) Repeat until game is ended #####
+
+![game_ends](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_frontend/game_ends.png)  
+
+You can anytime click "Back" in order to stop game and navigate to the menu.
+
