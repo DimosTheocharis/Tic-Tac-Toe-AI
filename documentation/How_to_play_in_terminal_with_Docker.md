@@ -80,12 +80,12 @@ This command will run the code in the `backend_dockerfile` file. It will create 
 In the terminal run:
 
 ```
-    docker run --name terminal-first -i -t terminal-game:v1
+    docker run --rm --name terminal-first -i -t terminal-game:v1
 ```
 
 This command will create a container called "terminal-first" based on the image you created previously. This container is just a snapshot of the image and also the final executable product that will let you play Tic-Tac-Toe-AI.
 
-This command will also run the container in interactive mode, in order to let you give inputs to the program. 
+This command will also run the container in interactive mode, in order to let you give inputs to the program. Lastly, the "--rm" flag will remove the container when project ends.
 
 ## Step 5. Play the game ##
 
@@ -121,19 +121,11 @@ you have to start the same container again, by running:
 ![start_container_again](https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/screenshots/how_to_run_backend/start_container_again.png)  
 
 
-## Step 7. Clear Data ##
+## Step 6. Clear Data ##
 
-This step is optional and involves deleting the image and the container that got created for the project.
+This step is optional and involves deleting the image that got created for the project.
 
-##### A) Delete the container #####
-
-In a terminal run (Docker Desktop should be open)
-
-```
-    docker container rm terminal-first
-```
-
-##### B) Delete the image #####
+##### A) Delete the image #####
 
 In a terminal run (Docker Desktop should be open)
 
