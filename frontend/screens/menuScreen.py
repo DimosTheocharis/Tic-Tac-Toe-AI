@@ -29,11 +29,13 @@ class MenuScreen(GeneralScreen):
         self.__lineThickness = 15
 
         self.__titleFont = Fonts["verdana_big"]
+        self.__signatureFont = Fonts["verdana_tiny_bold"]
 
         self.__lineColor = Colors["black"]
         self.__oddCellColor = Colors["deepBlue"]
         self.__evenCellColor = Colors["petrol"]
         self.__titleColor = Colors["black"]
+        self.__signatureColor = Colors["orangeIdle"]
 
 
 
@@ -45,6 +47,8 @@ class MenuScreen(GeneralScreen):
         self.__drawVerticalLines(window)
 
         self.__drawTitle(window)
+
+        self.__drawSignature(window)
 
         self.__startGameButton.display(window)
 
@@ -99,6 +103,15 @@ class MenuScreen(GeneralScreen):
         window.blit(ticSurface, self._centerSurfaceInRect(ticSurface, ticRect))
         window.blit(tacSurface, self._centerSurfaceInRect(tacSurface, tacRect))
         window.blit(toeSurface, self._centerSurfaceInRect(toeSurface, toeRect))
+
+
+    def __drawSignature(self, window: Surface) -> None:
+        '''
+            Displays a label with the name of the creator (Dimosthenis Theocharis) in the bottom left corner
+        '''
+        signatureSurface: Surface = self.__signatureFont.render("~ Created by Dimosthenis Theocharis ~", False, self.__signatureColor)
+
+        window.blit(signatureSurface, (10, self._height - signatureSurface.get_height() - 10))
     
     
     def __createButtons(self) -> None:

@@ -11,9 +11,7 @@ Colors: Dict[str, tuple[int, int, int]] = {
     "slateGrey": (86, 120, 146),
     "darkerRed": (75, 10, 10),
     "darkRed": (100, 10, 10),
-    "orangeIdle": (255, 160, 122),
     "orangeIdle": (255, 149, 77),
-    "orangeActive": (255, 127, 80),
     "orangeActive": (255, 127, 80),
     "deepNavyBlue": (51, 51, 102)
 }
