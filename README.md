@@ -22,6 +22,10 @@ Check the corresponding documentation:
 
 https://github.com/DimosTheocharis/Tic-Tac-Toe-AI/blob/main/documentation/How_to_play_in_gui.md
 
+## Download the game from itch.io platform ##
+
+https://dimos-theocharis.itch.io/tic-tac-toe-ai
+
 ## Learn About MiniMax algorithm ##
 
 You can learn how MiniMax works reading an article of mine:
